@@ -5,12 +5,25 @@ if(a == 0)
 {
 document.getElementById("typ").style.display = "none";
 document.getElementById("typ_1976").style.display = "inline-block";
+document.getElementById("naklejka_ziel").style.display = "none";
 }
 else 
 {
 document.getElementById("typ").style.display = "inline-block";
 document.getElementById("typ_1976").style.display = "none";
 }
+}
+
+function zmienWidZiel(s)
+{
+	if(s.value >= 51 && s.value <= 55) document.getElementById("naklejka_ziel").style.display = "inline-block";
+	else document.getElementById("naklejka_ziel").style.display = "none";
+}
+
+function switchPageStyle()
+{
+	if(document.getElementById("pagestyle").getAttribute("href") == "styles/style-bright.css") document.getElementById("pagestyle").setAttribute("href", "styles/style.css");
+	else document.getElementById("pagestyle").setAttribute("href", "styles/style-bright.css");
 }
 
 function setCanvas(a, sc)
@@ -26,7 +39,7 @@ else if(a==5 || a==27 || a==15 || a==16 || a==20 || a==25 || a==55){c_width=280;
 else if(a==101 || a==105 || a==108 || a==111 || a==114){c_width=1040;c_height=240;} //1-rzędowa 1976
 else if(a==102 || a==106 || a==109 || a==112){c_width=580;c_height=460;} //2-rzędowa 1976
 else if(a==115){c_width=660;c_height=460;} //2-rzędowa dyplomatyczna 1976
-else if(a==104){c_width=280;c_height=230;} //motorowerowa 1976
+else if(a==104 || a==117 || a==118){c_width=280;c_height=230;} //motorowerowa 1976
 
 document.getElementById("tablica").width = c_width*sc;
 document.getElementById("tablica").height = c_height*sc;
@@ -391,6 +404,7 @@ type:2, //3. zasób ziemski
 regex:/^[A-Z][A-Z][A-Z][0-9][A-Z][0-9][0-9]$/, 
 cpos_narrow:[[70,17],[129,17],[188,17],[34,117],[97,117],[164,117],[227,117]],  
 cpos_wide:[[65,17],[131,17],[197,17],[34,117],[97,117],[164,117],[227,117]], 
+width:[1,1,1,1,0,1,1],
 spos_narrow:[257.5,42], 
 spos_wide:[265.5,42], 
 epos:[259.5,17]
@@ -408,7 +422,7 @@ epos:[259.5,17]
 {
 type:2, //2. zasób ziemski
 regex:/^[A-Z][A-Z][A-Z][0-9][0-9][A-Z][A-Z]$/, 
-cpos:[[70,17],[129,17],[188,17],[32,117],[95,117],[158,117],[225,117]],  
+cpos_narrow:[[70,17],[129,17],[188,17],[32,117],[95,117],[158,117],[225,117]],  
 cpos_wide:[[65,17],[131,17],[197,17],[32,117],[95,117],[158,117],[225,117]], 
 width:[1,1,1,1,1,0,0],
 spos_narrow:[257.5,42], 
@@ -812,7 +826,7 @@ epos:[159.5,15]
 },
 {
 type:4, //11. zasób ziemski
-regex:/^[A-Z][A-Z][A-Z][A-Z][A-Z][0-9][A-Z]$/, 
+regex:/^[A-Z][A-Z][A-Z][A-Z][0-9][A-Z][A-Z]$/, 
 cpos_narrow:[[50,20],[86,20],[122,20],[18,85],[60,85],[102,85],[144,85]], 
 cpos_wide:[[50,20],[88,20],[126,20],[18,85],[60,85],[102,85],[144,85]],
 width:[1,1,1,0,0,1,0],
@@ -1081,9 +1095,9 @@ spos_wide:[10.5,66.5]
 },
 {
 type:5,
-regex:/^[A-Z][A-Z][A-Z][A-Z][A-Z][0-9][A-Z]$/, 
-cpos_narrow:[[47,17.5],[75,17.5],[103,17.5],[32,66.5],[58,66.5],[84,66.5],[106,66.5]], 
-cpos_wide:[[47,17.5],[75,17.5],[103,17.5],[32,66.5],[58,66.5],[84,66.5],[106,66.5]], 
+regex:/^[A-Z][A-Z][A-Z][A-Z][0-9][A-Z][A-Z]$/, 
+cpos_narrow:[[47,17.5],[75,17.5],[103,17.5],[32,66.5],[58,66.5],[80,66.5],[106,66.5]], 
+cpos_wide:[[47,17.5],[75,17.5],[103,17.5],[32,66.5],[58,66.5],[80,66.5],[106,66.5]], 
 width:[1,1,1,1,1,1,1],
 spos_narrow:[10.5,66.5],
 spos_wide:[10.5,66.5]
@@ -1823,367 +1837,456 @@ cpos_wide:[[15,20],[89.5,20],[159,20],[270,20],[328,20],[386,20],[444,20]],
 type:101, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera W
 regex:/^[W][W][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[15,20],[87,20],[159,20],[270,20],[328,20],[386,20],[444,20]], 
-},
-//cpos_wide:[[20,20],[92,20],[164,20],[275,20],[335,20],[395,20],[455,20]], 
+}, 
 {
-type:102, //czarne 1-rz 4 cyfry, standardowa szerokość
+type:102, //czarne 2-rz 4 cyfry, standardowa szerokość
 regex:/^[A-Z^AMW][A-Z^AMW][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[25,20],[100,20],[175,20],[25,130],[90,130],[155,130],[220,130]], 
 },
 {
-type:102, //czarne 1-rz 4 cyfry, pierwsza litera standardowa, druga litera A lub M
+type:102, //czarne 2-rz 4 cyfry, pierwsza litera standardowa, druga litera A lub M
 regex:/^[A-Z^AMW][AM][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[25,20],[97,20],[175,20],[25,130],[90,130],[155,130],[220,130]], 
 },
 {
-type:102, //czarne 1-rz 4 cyfry, pierwsza litera standardowa, druga litera W
+type:102, //czarne 2-rz 4 cyfry, pierwsza litera standardowa, druga litera W
 regex:/^[A-Z^AMW][W][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[25,20],[94.5,20],[175,20],[25,130],[90,130],[155,130],[220,130]], 
 },
 {
-type:102, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera standardowa
+type:102, //czarne 2-rz 4 cyfry, pierwsza litera A lub M, druga litera standardowa
 regex:/^[AM][A-Z^AMW][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[25,20],[103,20],[175,20],[25,130],[90,130],[155,130],[220,130]], 
 },
 {
-type:102, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera A lub M
+type:102, //czarne 2-rz 4 cyfry, pierwsza litera A lub M, druga litera A lub M
 regex:/^[AM][AM][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[25,20],[100,20],[175,20],[25,130],[90,130],[155,130],[220,130]], 
 },
 {
-type:102, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera W
+type:102, //czarne 2-rz 4 cyfry, pierwsza litera A lub M, druga litera W
 regex:/^[AM][W][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[25,20],[97.5,20],[175,20],[25,130],[90,130],[155,130],[220,130]],  
 },
 {
-type:102, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera standardowa
+type:102, //czarne 2-rz 4 cyfry, pierwsza litera W, druga litera standardowa
 regex:/^[W][A-Z^AMW][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[25,20],[105.5,20],[175,20],[25,130],[90,130],[155,130],[220,130]], 
 },
 {
-type:102, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera A lub M
+type:102, //czarne 2-rz 4 cyfry, pierwsza litera W, druga litera A lub M
 regex:/^[W][AM][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[25,20],[102.5,20],[175,20],[25,130],[90,130],[155,130],[220,130]],  
 },
 {
-type:102, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera W
+type:102, //czarne 2-rz 4 cyfry, pierwsza litera W, druga litera W
 regex:/^[W][W][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[25,20],[100,20],[175,20],[25,130],[90,130],[155,130],[220,130]],  
 },
 {
-type:102, //czarne 1-rz 3 cyfry, standardowa szerokość
+type:102, //czarne 2-rz 3 cyfry, standardowa szerokość
 regex:/^[A-Z^AMW][A-Z^AMW][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[20,20],[95,20],[170,20],[20,130],[85,130],[150,130],[215,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera standardowa, druga litera A lub M
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera standardowa, druga litera A lub M
 regex:/^[A-Z^AMW][AM][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[20,20],[92,20],[170,20],[20,130],[85,130],[150,130],[215,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera standardowa, druga litera W
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera standardowa, druga litera W
 regex:/^[A-Z^AMW][W][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[20,20],[89.5,20],[170,20],[20,130],[85,130],[150,130],[215,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera standardowa
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera A lub M, druga litera standardowa
 regex:/^[AM][A-Z^AMW][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[20,20],[98,20],[170,20],[20,130],[85,130],[150,130],[215,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera A lub M
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera A lub M, druga litera A lub M
 regex:/^[AM][AM][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[20,20],[95,20],[170,20],[20,130],[85,130],[150,130],[215,130]],  
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera W
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera A lub M, druga litera W
 regex:/^[AM][W][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[20,20],[92.5,20],[170,20],[20,130],[85,130],[150,130],[215,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera standardowa
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera W, druga litera standardowa
 regex:/^[W][A-Z^AMW][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[20,20],[100.5,20],[170,20],[20,130],[85,130],[150,130],[215,130]],  
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera A lub M
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera W, druga litera A lub M
 regex:/^[W][AM][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[20,20],[97.5,20],[170,20],[20,130],[85,130],[150,130],[215,130]],  
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera W
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera W, druga litera W
 regex:/^[W][W][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[20,20],[95,20],[170,20],[20,130],[85,130],[150,130],[215,130]],  
 },
 {
-type:102, //czarne 1-rz 3 cyfry, standardowa szerokość
+type:102, //czarne 2-rz 3 cyfry, standardowa szerokość
 regex:/^[A-Z^AMW][A-Z^AMW][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[20,20],[95,20],[170,20],[20,130],[83,130],[146,130],[209,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera standardowa, druga litera A lub M
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera standardowa, druga litera A lub M
 regex:/^[A-Z^AMW][AM][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[20,20],[92,20],[170,20],[20,130],[83,130],[146,130],[209,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera standardowa, druga litera W
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera standardowa, druga litera W
 regex:/^[A-Z^AMW][W][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[20,20],[89.5,20],[170,20],[20,130],[83,130],[146,130],[209,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera standardowa
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera A lub M, druga litera standardowa
 regex:/^[AM][A-Z^AMW][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[20,20],[98,20],[170,20],[20,130],[83,130],[146,130],[209,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera A lub M
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera A lub M, druga litera A lub M
 regex:/^[AM][AM][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[20,20],[95,20],[170,20],[20,130],[83,130],[146,130],[209,130]],  
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera W
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera A lub M, druga litera W
 regex:/^[AM][W][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[20,20],[92.5,20],[170,20],[20,130],[83,130],[146,130],[209,130]], 
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera standardowa
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera W, druga litera standardowa
 regex:/^[W][A-Z^AMW][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[20,20],[100.5,20],[170,20],[20,130],[83,130],[146,130],[209,130]],  
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera A lub M
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera W, druga litera A lub M
 regex:/^[W][AM][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[20,20],[97.5,20],[170,20],[20,130],[83,130],[146,130],[209,130]],  
 },
 {
-type:102, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera W
+type:102, //czarne 2-rz 3 cyfry, pierwsza litera W, druga litera W
 regex:/^[W][W][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[20,20],[95,20],[170,20],[20,130],[83,130],[146,130],[209,130]],  
 },
 {
-type:103, //czarne 1-rz 4 cyfry, standardowa szerokość
+type:103, //czarne motocyklowe 4 cyfry, standardowa szerokość
 regex:/^[A-Z^AMW][A-Z^AMW][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[63,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
 },
 {
-type:103, //czarne 1-rz 4 cyfry, pierwsza litera standardowa, druga litera A lub M
+type:103, //czarne motocyklowe 4 cyfry, pierwsza litera standardowa, druga litera A lub M
 regex:/^[A-Z^AMW][AM][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[60,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
 },
 {
-type:103, //czarne 1-rz 4 cyfry, pierwsza litera standardowa, druga litera W
+type:103, //czarne motocyklowe 4 cyfry, pierwsza litera standardowa, druga litera W
 regex:/^[A-Z^AMW][W][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[57.5,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
 },
 {
-type:103, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera standardowa
+type:103, //czarne motocyklowe 4 cyfry, pierwsza litera A lub M, druga litera standardowa
 regex:/^[AM][A-Z^AMW][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[66,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
 },
 {
-type:103, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera A lub M
+type:103, //czarne motocyklowe 4 cyfry, pierwsza litera A lub M, druga litera A lub M
 regex:/^[AM][AM][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[63,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
 },
 {
-type:103, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera W
+type:103, //czarne motocyklowe 4 cyfry, pierwsza litera A lub M, druga litera W
 regex:/^[AM][W][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[60.5,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
 },
 {
-type:103, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera standardowa
+type:103, //czarne motocyklowe 4 cyfry, pierwsza litera W, druga litera standardowa
 regex:/^[W][A-Z^AMW][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[68,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
 },
 {
-type:103, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera A lub M
+type:103, //czarne motocyklowe 4 cyfry, pierwsza litera W, druga litera A lub M
 regex:/^[W][AM][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[65,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
 },
 {
-type:103, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera W
+type:103, //czarne motocyklowe 4 cyfry, pierwsza litera W, druga litera W
 regex:/^[W][W][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[62.5,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
 },
 {
-type:103, //czarne 1-rz 3 cyfry, standardowa szerokość
+type:103, //czarne motocyklowe 3 cyfry, standardowa szerokość
 regex:/^[A-Z^AMW][A-Z^AMW][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[12,20],[61,20],[110,20],[12,85],[56,85],[100,85],[144,85]], 
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera standardowa, druga litera A lub M
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera standardowa, druga litera A lub M
 regex:/^[A-Z^AMW][AM][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[12,20],[58,20],[110,20],[12,85],[56,85],[100,85],[144,85]], 
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera standardowa, druga litera W
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera standardowa, druga litera W
 regex:/^[A-Z^AMW][W][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[12,20],[55.5,20],[110,20],[12,85],[56,85],[100,85],[144,85]], 
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera standardowa
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera A lub M, druga litera standardowa
 regex:/^[AM][A-Z^AMW][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[12,20],[64,20],[110,20],[12,85],[56,85],[100,85],[144,85]],  
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera A lub M
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera A lub M, druga litera A lub M
 regex:/^[AM][AM][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[12,20],[61,20],[110,20],[12,85],[56,85],[100,85],[144,85]],  
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera W
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera A lub M, druga litera W
 regex:/^[AM][W][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[12,20],[58.5,20],[110,20],[12,85],[56,85],[100,85],[144,85]],  
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera standardowa
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera W, druga litera standardowa
 regex:/^[W][A-Z^AMW][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[12,20],[66,20],[110,20],[12,85],[56,85],[100,85],[144,85]],  
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera A lub M
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera W, druga litera A lub M
 regex:/^[W][AM][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[12,20],[63,20],[110,20],[12,85],[56,85],[100,85],[144,85]],   
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera W
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera W, druga litera W
 regex:/^[W][W][A-Z][0-9][0-9][0-9][A-Z^AMW]$/, 
 cpos_wide:[[12,20],[60.5,20],[110,20],[12,85],[56,85],[100,85],[144,85]],   
 },
 {
-type:103, //czarne 1-rz 3 cyfry, standardowa szerokość
+type:103, //czarne motocyklowe 3 cyfry, standardowa szerokość
 regex:/^[A-Z^AMW][A-Z^AMW][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[12,20],[61,20],[110,20],[12,85],[54,85],[96,85],[138,85]], 
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera standardowa, druga litera A lub M
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera standardowa, druga litera A lub M
 regex:/^[A-Z^AMW][AM][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[12,20],[58,20],[110,20],[12,85],[54,85],[96,85],[138,85]], 
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera standardowa, druga litera W
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera standardowa, druga litera W
 regex:/^[A-Z^AMW][W][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[12,20],[55.5,20],[110,20],[12,85],[54,85],[96,85],[138,85]], 
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera standardowa
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera A lub M, druga litera standardowa
 regex:/^[AM][A-Z^AMW][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[12,20],[64,20],[110,20],[12,85],[54,85],[96,85],[138,85]],  
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera A lub M
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera A lub M, druga litera A lub M
 regex:/^[AM][AM][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[12,20],[61,20],[110,20],[12,85],[54,85],[96,85],[138,85]],  
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera A lub M, druga litera W
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera A lub M, druga litera W
 regex:/^[AM][W][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[12,20],[58.5,20],[110,20],[12,85],[54,85],[96,85],[138,85]],  
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera standardowa
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera W, druga litera standardowa
 regex:/^[W][A-Z^AMW][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[12,20],[66,20],[110,20],[12,85],[54,85],[96,85],[138,85]],  
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera A lub M
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera W, druga litera A lub M
 regex:/^[W][AM][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[12,20],[63,20],[110,20],[12,85],[54,85],[96,85],[138,85]],   
 },
 {
-type:103, //czarne 1-rz 3 cyfry, pierwsza litera W, druga litera W
+type:103, //czarne motocyklowe 3 cyfry, pierwsza litera W, druga litera W
 regex:/^[W][W][A-Z][0-9][0-9][0-9][AMW]$/, 
 cpos_wide:[[12,20],[60.5,20],[110,20],[12,85],[54,85],[96,85],[138,85]],   
 },
 {
-type:104, //czarne 1-rz 4 cyfry, standardowa szerokość
+type:104, //czarne motorowerowe 4 cyfry, standardowa szerokość
 regex:/^[A-Z^AMW][A-Z^AMW][A-Z][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[61,17],[98,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[60,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera standardowa, druga litera A lub M
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera standardowa, druga litera A lub M
 regex:/^[A-Z^AMW][AM][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[58.5,17],[98,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[57.5,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera standardowa, druga litera W
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera standardowa, druga litera W
 regex:/^[A-Z^AMW][W][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[57.5,17],[98,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[56.5,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera standardowa
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera standardowa
 regex:/^[AM][A-Z^AMW][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[63.5,17],[98,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[62.5,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera A lub M
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera A lub M
 regex:/^[AM][AM][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[61,17],[98,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[60,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera W
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera W
 regex:/^[AM][W][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[60,17],[98,17],[20,68],[48,68],[76,68],[104,68]],  
+cpos_wide:[[24,17],[59,17],[96,17],[20,68],[48,68],[76,68],[104,68]],  
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera standardowa
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera standardowa
 regex:/^[W][A-Z^AMW][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[63.5,17],[98,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[62.5,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera A lub M
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera A lub M
 regex:/^[W][AM][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[61,17],[98,17],[20,68],[48,68],[76,68],[104,68]],  
+cpos_wide:[[24,17],[60,17],[96,17],[20,68],[48,68],[76,68],[104,68]],  
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera W
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera W
 regex:/^[W][W][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[60,17],[98,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[59,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, standardowa szerokość
+type:104, //czarne motorowerowe 4 cyfry, standardowa szerokość
 regex:/^[A-Z^AMW][A-Z^AMW][AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[59.5,17],[93,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[58.5,17],[91,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera standardowa, druga litera A lub M
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera standardowa, druga litera A lub M
 regex:/^[A-Z^AMW][AM][AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[57,17],[93,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[55.5,17],[91,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera standardowa, druga litera W
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera standardowa, druga litera W
 regex:/^[A-Z^AMW][W][AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[55.5,17],[93,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[54.5,17],[91,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera standardowa
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera standardowa
 regex:/^[AM][A-Z^AMW][AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[60.5,17],[93,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[59.5,17],[91,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera A lub M
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera A lub M
 regex:/^[AM][AM][AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[58.5,17],[93,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[57.5,17],[91,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera A lub M, druga litera W
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera W
 regex:/^[AM][W][AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[58,17],[93,17],[20,68],[48,68],[76,68],[104,68]],  
+cpos_wide:[[24,17],[57,17],[91,17],[20,68],[48,68],[76,68],[104,68]],  
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera standardowa
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera standardowa
 regex:/^[W][A-Z^AMW][AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[61.5,17],[93,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[60.5,17],[91,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera A lub M
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera A lub M
 regex:/^[W][AM][AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[59,17],[93,17],[20,68],[48,68],[76,68],[104,68]],  
+cpos_wide:[[24,17],[58,17],[91,17],[20,68],[48,68],[76,68],[104,68]],  
 },
 {
-type:104, //czarne 1-rz 4 cyfry, pierwsza litera W, druga litera W
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera W
 regex:/^[W][W][AMW][0-9][0-9][0-9][0-9]$/, 
-cpos_wide:[[24,17],[58.5,17],[93,17],[20,68],[48,68],[76,68],[104,68]], 
+cpos_wide:[[24,17],[57.5,17],[91,17],[20,68],[48,68],[76,68],[104,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, standardowa szerokość
+regex:/^[A-Z^AMW][A-Z^AMW][A-Z][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[60,17],[96,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera standardowa, druga litera A lub M
+regex:/^[A-Z^AMW][AM][A-Z^AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[57.5,17],[96,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera standardowa, druga litera W
+regex:/^[A-Z^AMW][W][A-Z^AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[56.5,17],[96,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera standardowa
+regex:/^[AM][A-Z^AMW][A-Z^AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[62.5,17],[96,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera A lub M
+regex:/^[AM][AM][A-Z^AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[60,17],[96,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera W
+regex:/^[AM][W][A-Z^AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[59,17],[96,17],[20,68],[46,68],[72,68],[98,68]],  
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera standardowa
+regex:/^[W][A-Z^AMW][A-Z^AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[62.5,17],[96,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera A lub M
+regex:/^[W][AM][A-Z^AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[60,17],[96,17],[20,68],[46,68],[72,68],[98,68]],  
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera W
+regex:/^[W][W][A-Z^AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[59,17],[96,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, standardowa szerokość
+regex:/^[A-Z^AMW][A-Z^AMW][AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[58.5,17],[91,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera standardowa, druga litera A lub M
+regex:/^[A-Z^AMW][AM][AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[55.5,17],[91,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera standardowa, druga litera W
+regex:/^[A-Z^AMW][W][AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[54.5,17],[91,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera standardowa
+regex:/^[AM][A-Z^AMW][AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[59.5,17],[91,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera A lub M
+regex:/^[AM][AM][AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[57.5,17],[91,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera A lub M, druga litera W
+regex:/^[AM][W][AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[57,17],[91,17],[20,68],[46,68],[72,68],[98,68]],  
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera standardowa
+regex:/^[W][A-Z^AMW][AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[60.5,17],[91,17],[20,68],[46,68],[72,68],[98,68]], 
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera A lub M
+regex:/^[W][AM][AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[58,17],[91,17],[20,68],[46,68],[72,68],[98,68]],  
+},
+{
+type:104, //czarne motorowerowe 4 cyfry, pierwsza litera W, druga litera W
+regex:/^[W][W][AMW][0-9][0-9][0-9][A-Z]$/, 
+cpos_wide:[[24,17],[57.5,17],[91,17],[20,68],[46,68],[72,68],[98,68]], 
 },
 {
 type:105, //tymczasowe 1-rz
@@ -2199,6 +2302,11 @@ cpos_wide:[[22,20],[135,20],[200,20],[24,130],[90,130],[156,130],[222,130]],
 type:107, //tymczasowe motocyklowe
 regex:/^[A-Z][0-9][0-9][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[13,20],[74,20],[118,20],[15,85],[59,85],[103,85],[147,85]], 
+},
+{
+type:117, //tymczasowe motorowerowe
+regex:/^[A-Z][0-9][0-9][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[24,17],[68,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
 type:108, //czarne 1-rz 4 cyfry, standardowa szerokość
@@ -2244,6 +2352,21 @@ cpos_wide:[[14,20],[60,20],[112,20],[14,85],[58,85],[102,85],[146,85]],
 type:110, //czarne 1-rz 4 cyfry, pierwsza litera standardowa, druga litera W
 regex:/^[A-Z][W][A-Z][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[14,20],[57.5,20],[112,20],[14,85],[58,85],[102,85],[146,85]], 
+},
+{
+type:118, //czarne motorowerowe próbne 4 cyfry, standardowa szerokość
+regex:/^[A-Z^AMW][A-Z^AMW][A-Z][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[24,17],[60,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
+},
+{
+type:118, //czarne motorowerowe próbne 4 cyfry, pierwsza litera standardowa, druga litera A lub M
+regex:/^[A-Z^AMW][AM][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[24,17],[57.5,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
+},
+{
+type:118, //czarne motorowerowe próbne 4 cyfry, pierwsza litera standardowa, druga litera W
+regex:/^[A-Z^AMW][W][A-Z^AMW][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[24,17],[56.5,17],[96,17],[20,68],[48,68],[76,68],[104,68]], 
 },
 {
 type:111, //czarne 1-rz 4 cyfry, standardowa szerokość
@@ -2412,7 +2535,8 @@ ctx.drawImage(document.getElementById("nakl"), 2*scaling*zasoby[i].spos_narrow[0
 }
 if(t >= 51 && t <= 55)
 {
-ctx.drawImage(document.getElementById("nakle"), 2*scaling*zasoby[i].spos_narrow[0], 2*scaling*zasoby[i].spos_narrow[1], scaling*document.getElementById("nakle").width, scaling*document.getElementById("nakle").height);
+if(document.getElementById("w_nakl_e").checked) ctx.drawImage(document.getElementById("nakle"), 2*scaling*zasoby[i].spos_narrow[0], 2*scaling*zasoby[i].spos_narrow[1], scaling*document.getElementById("nakle").width, scaling*document.getElementById("nakle").height);
+else ctx.drawImage(document.getElementById("naklh"), 2*scaling*zasoby[i].spos_narrow[0], 2*scaling*zasoby[i].spos_narrow[1], scaling*document.getElementById("naklh").width, scaling*document.getElementById("naklh").height);
 }
 if(t == 9 || t == 11 || t == 13 || t == 15 || t == 21)
 {
@@ -2427,7 +2551,8 @@ ctx.drawImage(document.getElementById("nakl"), 2*scaling*zasoby[i].spos_wide[0],
 }
 if(t >= 51 && t <= 55)
 {
-ctx.drawImage(document.getElementById("nakle"), 2*scaling*zasoby[i].spos_wide[0], 2*scaling*zasoby[i].spos_wide[1], scaling*document.getElementById("nakle").width, scaling*document.getElementById("nakle").height);
+if(document.getElementById("w_nakl_e").checked) ctx.drawImage(document.getElementById("nakle"), 2*scaling*zasoby[i].spos_wide[0], 2*scaling*zasoby[i].spos_wide[1], scaling*document.getElementById("nakle").width, scaling*document.getElementById("nakle").height);
+else ctx.drawImage(document.getElementById("naklh"), 2*scaling*zasoby[i].spos_narrow[0], 2*scaling*zasoby[i].spos_narrow[1], scaling*document.getElementById("naklh").width, scaling*document.getElementById("naklh").height);
 }
 if(t == 9 || t == 11 || t == 13 || t == 15 || t == 21)
 {
@@ -2546,6 +2671,8 @@ if(t1976 == 113) elem_name = "bm"+n[j];
 if(t1976 == 114) elem_name = "bs"+n[j];
 if(t1976 == 115) elem_name = "bs"+n[j];
 if(t1976 == 116) elem_name = "bm"+n[j];
+if(t1976 == 117) elem_name = "yr"+n[j];
+if(t1976 == 118) elem_name = "br"+n[j];
 if(n[j] == "A" || n[j] == "M" || n[j] == "W") elem_name += "____";
 
 ctx.drawImage(document.getElementById(elem_name), 2*scaling*(zasoby[i].cpos_wide[j][0])-(5*scaling), 2*scaling*(zasoby[i].cpos_wide[j][1])-(5*scaling), scaling*document.getElementById(elem_name).width, scaling*document.getElementById(elem_name).height);

@@ -1,23 +1,53 @@
 
+window.addEventListener("load", (event) => {
+
+if(document.getElementById("wzor_1976").checked)
+{
+	document.getElementById("typ").style.display = "none";
+	document.getElementById("typ_1976").style.display = "inline-block";
+	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ_1976").value);
+	document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
+}
+else
+{
+	document.getElementById("typ").style.display = "inline-block";
+	document.getElementById("typ_1976").style.display = "none";
+	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ").value);
+	document.getElementById("example").src = "images/wzory/" + document.getElementById("typ").value + ".png";
+}
+
+
+});
+
 function przelaczWysw(a)
 {
 if(a == 0)
 {
-document.getElementById("typ").style.display = "none";
-document.getElementById("typ_1976").style.display = "inline-block";
-document.getElementById("naklejka_ziel").style.display = "none";
+	document.getElementById("typ").style.display = "none";
+	document.getElementById("typ_1976").style.display = "inline-block";
+	document.getElementById("naklejka_ziel").style.display = "none";
+	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ_1976").value);
+	document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
 }
 else 
 {
-document.getElementById("typ").style.display = "inline-block";
-document.getElementById("typ_1976").style.display = "none";
+	document.getElementById("typ").style.display = "inline-block";
+	document.getElementById("typ_1976").style.display = "none";
+	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ").value);
+	document.getElementById("example").src = "images/wzory/" + document.getElementById("typ").value + ".png";
 }
 }
 
-function zmienWidZiel(s)
+function zmienWid(s)
 {
 	if(s.value >= 51 && s.value <= 55) document.getElementById("naklejka_ziel").style.display = "inline-block";
 	else document.getElementById("naklejka_ziel").style.display = "none";
+	
+	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(s.value);
+	
+	if(document.getElementById("wzor_1976").checked) document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
+	else document.getElementById("example").src = "images/wzory/" + document.getElementById("typ").value + ".png";
+	
 }
 
 function switchPageStyle()
@@ -43,6 +73,24 @@ else if(a==104 || a==117 || a==118){c_width=280;c_height=230;} //motorowerowa 19
 
 document.getElementById("tablica").width = c_width*sc;
 document.getElementById("tablica").height = c_height*sc;
+
+}
+
+function getPermittedPatterns(a)
+{
+if(a == 1 || a== 2 || a == 51 || a == 52) return "KR&nbsp;12345, KR&nbsp;1234A, KR&nbsp;123AC, KR&nbsp;1A234, KR&nbsp;1AC23, KR&nbsp;A1234, KRA&nbsp;A123, KRA&nbsp;12AC, KRA&nbsp;1A23, KRA&nbsp;12A3, KRA&nbsp;1AC2, KRA&nbsp;AC12, KRA&nbsp;12345, KRA&nbsp;1234A, KRA&nbsp;123AC";
+if(a == 3 || a== 21 || a== 26 || a== 53) return "K&nbsp;123, K&nbsp;12A, K&nbsp;1A2, K&nbsp;A12, K&nbsp;1AC, K&nbsp;AC1, K&nbsp;A1C";
+if(a == 4 || a == 5 || a == 54 || a == 55) return "KR&nbsp;1234, KR&nbsp;123A, KR&nbsp;A123, KR&nbsp;12AC, KR&nbsp;1A23, KR&nbsp;12A3, KR&nbsp;1AC2, KR&nbsp;AC12, KRA&nbsp;A123, KRA&nbsp;12AC, KRA&nbsp;1A23, KRA&nbsp;12A3, KRA&nbsp;1AC2, KRA&nbsp;AC12, KRA&nbsp;A12C, KRA&nbsp;A1CE";
+if(a == 6 || a == 7 || a == 8 || a == 27) return "KR&nbsp;123, KR&nbsp;12A, KRA&nbsp;1A, KRA&nbsp;A1, KRA&nbsp;12";
+if(a == 9 || a == 11 || a == 13 || a == 15) return "K1&nbsp;2345, K1&nbsp;234A";
+if(a == 10 || a == 12 || a == 14 || a == 16) return "K1&nbsp;234&nbsp;B";
+if(a == 17 || a == 18 || a == 19 || a == 20) return "W&nbsp;123456"; 
+if(a == 22 || a == 23 || a == 24 || a == 25) return "K12&nbsp;34P56, K12&nbsp;34P5A";
+if(a == 101 || a == 102 || a == 103 || a == 104) return "WAB&nbsp;1234, WAB&nbsp;123C";
+if(a == 105 || a == 106 || a == 107 || a == 117) return "A&nbsp;12&nbsp;3456";
+if(a == 108 || a == 109 || a == 110 || a == 118) return "XWA&nbsp;1234";
+if(a == 111 || a == 112 || a == 113) return "IWA&nbsp;1234";
+if(a == 114 || a == 115 || a == 116) return "WA&nbsp;12&nbsp;345";
 
 }
 
@@ -2438,6 +2486,7 @@ var n = (document.getElementById("numer").value).replace(/\s/g, "").toUpperCase(
 var canvas = document.getElementById("tablica");
 var ctx = canvas.getContext("2d");
 var elem_name = "";
+var format_correct = false;
 
 var cert_number = "Z/00/000/22";
 var manufacturer_name = "PTR";
@@ -2448,6 +2497,23 @@ ctx.imageSmoothingEnabled = true;
 
 ctx.clearRect(0, 0, 1040, 460);
 
+if((document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || document.getElementById("wzor_2006").checked) && t >= 51 && t <= 55)
+{
+	document.getElementById("not-yet-issued").style.display="inline-block";
+}
+else if((document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || document.getElementById("wzor_2006").checked) && (t==3 || t==26 || t==21 || t==53))
+{
+	document.getElementById("not-yet-issued").style.display="inline-block";
+}
+else if((document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || document.getElementById("wzor_2006").checked) && t>= 22 && t <= 25)
+{
+	document.getElementById("not-yet-issued").style.display="inline-block";
+}
+else
+{
+	document.getElementById("not-yet-issued").style.display="none";
+}
+
 if(document.getElementById("wzor_1976").checked == false) setCanvas(t, scaling);
 else setCanvas(t1976, scaling);
 
@@ -2457,6 +2523,7 @@ for(var i = 0; i < zasoby.length; i++)
 {
 if(zasoby[i].type == t%50 && zasoby[i].regex.test(n))
 {
+format_correct = true;
 if(document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked) ctx.drawImage(document.getElementById("tab"+t+"f"), 0, 0, scaling*document.getElementById("tab"+t).width, scaling*document.getElementById("tab"+t).height);
 else ctx.drawImage(document.getElementById("tab"+t), 0, 0, scaling*document.getElementById("tab"+t).width, scaling*document.getElementById("tab"+t).height);
 
@@ -2651,6 +2718,7 @@ for(var i = 0; i < zasoby.length; i++)
 {
 if(zasoby[i].type == t1976 && zasoby[i].regex.test(n))
 {
+format_correct = true;
 ctx.drawImage(document.getElementById("tab"+t1976), 0, 0, scaling*document.getElementById("tab"+t1976).width, scaling*document.getElementById("tab"+t1976).height);
 
 for(var j = 0; j < zasoby[i].cpos_wide.length; j++)
@@ -2680,4 +2748,8 @@ ctx.drawImage(document.getElementById(elem_name), 2*scaling*(zasoby[i].cpos_wide
 }
 }
 }
+
+if(!format_correct) document.getElementById("format-incorrect").style.display="inline-block";
+else document.getElementById("format-incorrect").style.display="none";
+
 }

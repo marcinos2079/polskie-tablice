@@ -1,100 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Generator tablic rejestracyjnych</title>
+<title>Polish license plate generator</title>
 <meta charset="UTF-8">
-<meta name="description" content="Generator polskich tablic rejestracyjnych systemów 1976 i 2000. Obsługuje każdy format tablic: samochodowe (w tym 2-rzędowe i zmniejszone), motocyklowe i motorowerowe.">
-<meta name="keywords" content="tablice, rejestracje, generator, polskie, polska">
+<meta name="description" content="Polish number plate generator for 1976 & 2000 systems. It supports every plate size: regular (including square and reduced size), motorcycle and moped plates.">
+<meta name="keywords" content="license plates, number plates, registration plates, generator, poland, polish">
 <meta name="author" content="Marcin Przybyła">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link id="pagestyle" rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 <div id="container">
-<h1>Generator polskich tablic rejestracyjnych</h1>
+<h1>Polish License Plate Generator</h1>
 <hr>
 <canvas width="1040" height="1" id="tablica">
 </canvas>
 <hr>
 <div class="row">
 <div class="left">
-Wzór tablicy:<br>
-<input type="radio" name="wzor" id="wzor_1976" onclick="przelaczWysw(0)">1976-2000 (czarne blachy ❤️)<br>
-<input type="radio" name="wzor" id="wzor_2000" onclick="przelaczWysw(1)">2000-2002 (flaga Polski, stary krój M i W)<br>
-<input type="radio" name="wzor" id="wzor_2002" onclick="przelaczWysw(1)">2002-2006 (flaga Polski)<br>
-<input type="radio" name="wzor" id="wzor_2006" onclick="przelaczWysw(1)">2006-2018 (gwiazdki UE)<br>
-<input type="radio" name="wzor" id="wzor_2018" onclick="przelaczWysw(1)">2018-2020 (gwiazdki UE, czcionka zwężona)<br>
-<input type="radio" name="wzor" id="wzor_2020" onclick="przelaczWysw(1)" checked>2020-dziś (gwiazdki UE, nadruk orła)<br><br>
-Przykładowa tablica:<br>
+Plate style:<br>
+<input type="radio" name="wzor" id="wzor_1976" onclick="przelaczWysw(0)">1976-2000 (Old system plates, black background)<br>
+<input type="radio" name="wzor" id="wzor_2000" onclick="przelaczWysw(1)">2000-2002 (Polish flag, old 'M' &amp; 'W' letters)<br>
+<input type="radio" name="wzor" id="wzor_2002" onclick="przelaczWysw(1)">2002-2006 (Polish flag)<br>
+<input type="radio" name="wzor" id="wzor_2006" onclick="przelaczWysw(1)">2006-2018 (EU stars)<br>
+<input type="radio" name="wzor" id="wzor_2018" onclick="przelaczWysw(1)">2018-2020 (EU stars, narrow letters)<br>
+<input type="radio" name="wzor" id="wzor_2020" onclick="przelaczWysw(1)" checked>2020-today (EU stars, laser markings)<br><br>
+Example plate:<br>
 <img id="example" src=""><br>
-Dopuszczalne formaty numeru:<br>
+Allowed number formats:<br>
 <span id="allowed-formats"></span>
 </div>
 <div class="right">
-Typ tablicy:<br>
+Plate type:<br>
 <select id="typ" onclick="zmienWid(this)" onchange="zmienWid(this)">
-<option value="1">Jednorzędowa - zwykła</option>
-<option value="2">Dwurzędowa - zwykła</option>
-<option value="3">Zmniejszona - zwykła</option>
-<option value="4">Motocyklowa - zwykła</option>
-<option value="5">Motorowerowa - zwykła</option>
-<option value="6">Jednorzędowa - zabytkowa</option>
-<option value="7">Dwurzędowa - zabytkowa</option>
-<option value="26">Zmniejszona - zabytkowa [od 09.2022]</option>
-<option value="8">Motocyklowa - zabytkowa</option>
-<option value="27">Motorowerowa - zabytkowa [od 05.2023]</option>
-<option value="9">Jednorzędowa - tymczasowa</option>
-<option value="10">Jednorzędowa - tymczasowa badawcza</option>
-<option value="11">Dwurzędowa - tymczasowa</option>
-<option value="12">Dwurzędowa - tymczasowa badawcza</option>
-<option value="21">Zmniejszona - tymczasowa</option>
-<option value="13">Motocyklowa - tymczasowa</option>
-<option value="14">Motocyklowa - tymczasowa badawcza</option>
-<option value="15">Motorowerowa - tymczasowa</option>
-<option value="16">Motorowerowa - tymczasowa badawcza</option>
-<option value="17">Jednorzędowa - dyplomatyczna</option>
-<option value="18">Dwurzędowa - dyplomatyczna</option>
-<option value="19">Motocyklowa - dyplomatyczna</option>
-<option value="20">Motorowerowa - dyplomatyczna</option>
-<option value="22">Jednorzędowa - profesjonalna</option>
-<option value="23">Dwurzędowa - profesjonalna</option>
-<option value="24">Motocyklowa - profesjonalna</option>
-<option value="25">Motorowerowa - profesjonalna</option>
-<option value="51">Jednorzędowa - zielona</option>
-<option value="52">Dwurzędowa - zielona</option>
-<option value="53">Zmniejszona - zielona</option>
-<option value="54">Motocyklowa - zielona</option>
-<option value="55">Motorowerowa - zielona</option>
+<option value="1">Standard size - regular (incl. custom)</option>
+<option value="2">Square two-line - regular (incl. custom)</option>
+<option value="3">Reduced size - regular</option>
+<option value="4">Motorcycles - regular (incl. custom)</option>
+<option value="5">Mopeds - regular</option>
+<option value="6">Standard size - classic vehicles</option>
+<option value="7">Square two-line - classic vehicles</option>
+<option value="26">Reduced size - classic vehicles [since 9/2022]</option>
+<option value="8">Motorcycles - classic vehicles</option>
+<option value="27">Mopeds - classic vehicles [since 5/2023]</option>
+<option value="9">Standard size - temporary</option>
+<option value="10">Standard size - testing</option>
+<option value="11">Square two-line - temporary</option>
+<option value="12">Square two-line - testing</option>
+<option value="21">Reduced size - temporary</option>
+<option value="13">Motorcycles - temporary</option>
+<option value="14">Motorcycles - testing</option>
+<option value="15">Mopeds - temporary</option>
+<option value="16">Mopeds - testing</option>
+<option value="17">Standard size - diplomatic</option>
+<option value="18">Square two-line - diplomatic</option>
+<option value="19">Motorcycles - diplomatic</option>
+<option value="20">Mopeds - diplomatic</option>
+<option value="22">Standard size - professional</option>
+<option value="23">Square two-line - professional</option>
+<option value="24">Motorcycles - professional</option>
+<option value="25">Mopeds - professional</option>
+<option value="51">Standard size - green</option>
+<option value="52">Square two-line - green</option>
+<option value="53">Reduced size - green</option>
+<option value="54">Motorcycles - green</option>
+<option value="55">Mopeds - green</option>
 </select>
 <select id="typ_1976" onclick="zmienWid(this)" onchange="zmienWid(this)" style="display:none">
-<option value="101">Jednorzędowa - zwykła</option>
-<option value="102">Dwurzędowa - zwykła</option>
-<option value="103">Motocyklowa - zwykła</option>
-<option value="104">Motorowerowa - zwykła</option>
-<option value="105">Jednorzędowa - tymczasowa</option>
-<option value="106">Dwurzędowa - tymczasowa</option>
-<option value="107">Motocyklowa - tymczasowa</option>
-<option value="117">Motorowerowa - tymczasowa</option>
-<option value="108">Jednorzędowa - próbna</option>
-<option value="109">Dwurzędowa - próbna</option>
-<option value="110">Motocyklowa - próbna</option>
-<option value="118">Motorowerowa - próbna</option>
-<option value="111">Jednorzędowa - cudzoziemska</option>
-<option value="112">Dwurzędowa - cudzoziemska</option>
-<option value="113">Motocyklowa - cudzoziemska</option>
-<option value="114">Jednorzędowa - dyplomatyczna</option>
-<option value="115">Dwurzędowa - dyplomatyczna</option>
-<option value="116">Motocyklowa - dyplomatyczna</option>
-</select><span id="naklejka_ziel" style="display:none"><input type="radio" id="w_nakl_e" name="typ_naklejki" checked>Elektryczny<input type="radio" id="w_nakl_h" name="typ_naklejki">Wodorowy</span><br>
-Numer rejestracyjny:<br>
+<option value="101">Standard size - regular</option>
+<option value="102">Square two-line - regular</option>
+<option value="103">Motorcycles - regular</option>
+<option value="104">Mopeds - regular</option>
+<option value="105">Standard size - temporary</option>
+<option value="106">Square two-line - temporary</option>
+<option value="107">Motorcycles - temporary</option>
+<option value="117">Mopeds - temporary</option>
+<option value="108">Standard size - testing</option>
+<option value="109">Square two-line - testing</option>
+<option value="110">Motorcycles - testing</option>
+<option value="118">Mopeds - testing</option>
+<option value="111">Standard size - foreigners</option>
+<option value="112">Square two-line - foreigners</option>
+<option value="113">Motorcycles - foreigners</option>
+<option value="114">Standard size - diplomatic</option>
+<option value="115">Square two-line - diplomatic</option>
+<option value="116">Motorcycles - diplomatic</option>
+</select><span id="naklejka_ziel" style="display:none"><input type="radio" id="w_nakl_e" name="typ_naklejki" checked>Electric<input type="radio" id="w_nakl_h" name="typ_naklejki">Hydrogen</span><br>
+Registration number:<br>
 <input type="text" id="numer"><br>
-Skalowanie: <input id="scaling" type="number" min="1" max="100" step="1" value="50">% (dla 50% - 1 piksel odpowiada 1 mm)<br>
-<button onclick="generate()">Wygeneruj tablicę</button><!--<a href="#" id="downloader" onclick="download()" download="tablica.png">Zapisz obraz</a>-->
-<span id="format-incorrect" style="display:none">Nieprawidłowy format numeru.</span>
-<span id="not-yet-issued" style="display:none">Tego typu tablic jeszcze wtedy nie wydawano.</span>
+Image scaling: <input id="scaling" type="number" min="1" max="100" step="1" value="50">% (for 50% - 1 pixel is 1 mm)<br>
+<button onclick="generate()">Generate a plate</button><!--<a href="#" id="downloader" onclick="download()" download="tablica.png">Zapisz obraz</a>-->
+<span id="format-incorrect" style="display:none">Incorrect number format.</span>
+<span id="not-yet-issued" style="display:none">This plate type wasn't issued yet.</span>
 </div>
 </div>
-<div id="footer">&copy; 2022 Marcin Przybyła | wersja z 21.11.2022 | <span id="switchstyle" onclick="switchPageStyle()">Zmień motyw</span> | <a href="index-en.html">English</a></div>
+<div id="footer">&copy; 2022 Marcin Przybyła | version from 21 Nov 2022 | <span id="switchstyle" onclick="switchPageStyle()">Switch theme</span> | <a href="index.html">Polski</a></div>
 </div>
 </div>
 </div>

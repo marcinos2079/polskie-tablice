@@ -21,8 +21,8 @@ button {padding:5px 12px;background-color:#444444;color:#ffffff;border:2px #8888
 button:hover {padding:5px 12px;background-color:#666666;color:#ffffff;border:2px #888888 solid;cursor:pointer;font-size:12pt}
 button:active {padding:5px 12px;background-color:#888888;color:#ffffff;border:2px #888888 solid;cursor:pointer;font-size:12pt}
 select {padding:3px 1px;background-color:#444444;color:#ffffff;border:1px #888888 solid;font-size:11pt;margin:2px 0px}
-span#switchstyle {color:#ffff88;cursor:pointer}
-span#switchstyle:hover {color:#ffffff;cursor:pointer}
+a#switchstyle {color:#ffff88;cursor:pointer}
+a#switchstyle:hover {color:#ffffff;cursor:pointer}
 span#allowed-formats {font-size:11pt}
 span#format-incorrect {color:#ff8888}
 span#not-yet-issued {color:#ffbb88}

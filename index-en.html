@@ -19,12 +19,12 @@
 <div class="row">
 <div class="left">
 Plate style:<br>
-<input type="radio" name="wzor" id="wzor_1976" onclick="przelaczWysw(0)">1976-2000 (Old system plates, black background)<br>
-<input type="radio" name="wzor" id="wzor_2000" onclick="przelaczWysw(1)">2000-2002 (Polish flag, old 'M' &amp; 'W' letters)<br>
-<input type="radio" name="wzor" id="wzor_2002" onclick="przelaczWysw(1)">2002-2006 (Polish flag)<br>
-<input type="radio" name="wzor" id="wzor_2006" onclick="przelaczWysw(1)">2006-2018 (EU stars)<br>
-<input type="radio" name="wzor" id="wzor_2018" onclick="przelaczWysw(1)">2018-2020 (EU stars, narrow letters)<br>
-<input type="radio" name="wzor" id="wzor_2020" onclick="przelaczWysw(1)" checked>2020-today (EU stars, laser markings)<br><br>
+<input type="radio" name="wzor" id="wzor_1976" onclick="setVisibility(0)">1976-2000 (Old system plates, black background)<br>
+<input type="radio" name="wzor" id="wzor_2000" onclick="setVisibility(1)">2000-2002 (Polish flag, old 'M' &amp; 'W' letters)<br>
+<input type="radio" name="wzor" id="wzor_2002" onclick="setVisibility(1)">2002-2006 (Polish flag)<br>
+<input type="radio" name="wzor" id="wzor_2006" onclick="setVisibility(1)">2006-2018 (EU stars)<br>
+<input type="radio" name="wzor" id="wzor_2018" onclick="setVisibility(1)">2018-2020 (EU stars, narrow letters)<br>
+<input type="radio" name="wzor" id="wzor_2020" onclick="setVisibility(1)" checked>2020-today (EU stars, laser markings)<br><br>
 Example plate:<br>
 <img id="example" src=""><br>
 Allowed number formats:<br>
@@ -33,59 +33,62 @@ Allowed number formats:<br>
 <div class="right">
 Plate type:<br>
 <select id="typ" onclick="zmienWid(this)" onchange="zmienWid(this)">
-<option value="1">Standard size - regular (incl. custom)</option>
-<option value="2">Square two-line - regular (incl. custom)</option>
-<option value="3">Reduced size - regular</option>
-<option value="4">Motorcycles - regular (incl. custom)</option>
-<option value="5">Mopeds - regular</option>
-<option value="6">Standard size - classic vehicles</option>
-<option value="7">Square two-line - classic vehicles</option>
-<option value="26">Reduced size - classic vehicles [since 9/2022]</option>
-<option value="8">Motorcycles - classic vehicles</option>
-<option value="27">Mopeds - classic vehicles [since 5/2023]</option>
-<option value="9">Standard size - temporary</option>
-<option value="10">Standard size - testing</option>
-<option value="11">Square two-line - temporary</option>
-<option value="12">Square two-line - testing</option>
-<option value="21">Reduced size - temporary</option>
-<option value="13">Motorcycles - temporary</option>
-<option value="14">Motorcycles - testing</option>
-<option value="15">Mopeds - temporary</option>
-<option value="16">Mopeds - testing</option>
-<option value="17">Standard size - diplomatic</option>
-<option value="18">Square two-line - diplomatic</option>
-<option value="19">Motorcycles - diplomatic</option>
-<option value="20">Mopeds - diplomatic</option>
-<option value="22">Standard size - professional</option>
-<option value="23">Square two-line - professional</option>
-<option value="24">Motorcycles - professional</option>
-<option value="25">Mopeds - professional</option>
-<option value="51">Standard size - green</option>
-<option value="52">Square two-line - green</option>
-<option value="53">Reduced size - green</option>
-<option value="54">Motorcycles - green</option>
-<option value="55">Mopeds - green</option>
+<option value="1">Regular - standard size</option>
+<option value="2">Regular - square two-line</option>
+<option value="3">Regular - reduced size [since 2018]</option>
+<option value="4">Regular - motorcycles</option>
+<option value="5">Regular - mopeds</option>
+<option value="51">Electric/hydrogen - standard size [since 2020]</option>
+<option value="52">Electric/hydrogen - square two-line [since 2020]</option>
+<option value="53">Electric/hydrogen - reduced size [since 2020]</option>
+<option value="54">Electric/hydrogen - motorcycles [since 2020]</option>
+<option value="55">Electric/hydrogen - mopeds [since 2020]</option>
+<option value="6">Classic vehicles - standard size</option>
+<option value="7">Classic vehicles - square two-line</option>
+<option value="26">Classic vehicles - reduced size [since 2022]</option>
+<option value="8">Classic vehicles - motorcycles</option>
+<option value="27">Classic vehicles - mopeds [since 2023]</option>
+<option value="9">Temporary - standard size</option>
+<option value="10">Testing - standard size [2000-2019]</option>
+<option value="11">Temporary - square two-line</option>
+<option value="12">Testing - square two-line [2000-2019]</option>
+<option value="21">Temporary - reduced size [since 2018]</option>
+<option value="13">Temporary - motorcycles</option>
+<option value="14">Testing - motorcycles [2000-2019]</option>
+<option value="15">Temporary - mopeds</option>
+<option value="16">Testing - mopeds [2000-2019]</option>
+<option value="17">Diplomatic - standard size</option>
+<option value="18">Diplomatic - square two-line</option>
+<option value="19">Diplomatic - motorcycles</option>
+<option value="20">Diplomatic - mopeds</option>
+<option value="22">Professional - standard size [since 2019]</option>
+<option value="23">Professional - square two-line [since 2019]</option>
+<option value="24">Professional - motorcycles [since 2019]</option>
+<option value="25">Professional - mopeds [since 2019]</option>
+<option value="28">Sports cars - standard size [since 2024]</option>
+<option value="29">Sports cars - square two-line [since 2024]</option>
+<option value="30">Sports cars - reduced size [since 2024]</option>
 </select>
 <select id="typ_1976" onclick="zmienWid(this)" onchange="zmienWid(this)" style="display:none">
-<option value="101">Standard size - regular</option>
-<option value="102">Square two-line - regular</option>
-<option value="103">Motorcycles - regular</option>
-<option value="104">Mopeds - regular</option>
-<option value="105">Standard size - temporary</option>
-<option value="106">Square two-line - temporary</option>
-<option value="107">Motorcycles - temporary</option>
-<option value="117">Mopeds - temporary</option>
-<option value="108">Standard size - testing</option>
-<option value="109">Square two-line - testing</option>
-<option value="110">Motorcycles - testing</option>
-<option value="118">Mopeds - testing</option>
-<option value="111">Standard size - foreigners</option>
-<option value="112">Square two-line - foreigners</option>
-<option value="113">Motorcycles - foreigners</option>
-<option value="114">Standard size - diplomatic</option>
-<option value="115">Square two-line - diplomatic</option>
-<option value="116">Motorcycles - diplomatic</option>
-</select><span id="naklejka_ziel" style="display:none"><input type="radio" id="w_nakl_e" name="typ_naklejki" checked>Electric<input type="radio" id="w_nakl_h" name="typ_naklejki">Hydrogen</span><br>
+<option value="101">Regular - standard size</option>
+<option value="102">Regular - square two-line</option>
+<option value="103">Regular - motorcycles</option>
+<option value="104">Regular - mopeds</option>
+<option value="105">Temporary - standard size</option>
+<option value="106">Temporary - square two-line</option>
+<option value="107">Temporary - motorcycles</option>
+<option value="117">Temporary - mopeds</option>
+<option value="108">Testing - standard size</option>
+<option value="109">Testing - square two-line</option>
+<option value="110">Testing - motorcycles</option>
+<option value="118">Testing - mopeds</option>
+<option value="111">Foreigners - standard size</option>
+<option value="112">Foreigners - square two-line</option>
+<option value="113">Foreigners - motorcycles</option>
+<option value="114">Diplomatic - standard size</option>
+<option value="115">Diplomatic - square two-line</option>
+<option value="116">Diplomatic - motorcycles</option>
+</select><span id="naklejka_ziel" style="display:none"><input type="radio" id="w_nakl_e" name="typ_naklejki" checked>Electric<input type="radio" id="w_nakl_h" name="typ_naklejki">Hydrogen</span><span id="symbol_zab" style="display:none">Symbol:<input type="radio" id="w_zab_n" name="typ_zabytk" checked>New<input type="radio" id="w_zab_s" name="typ_zabytk">Old</span><span id="data_tymcz" style="display:none">Year:<input type="number" min="2000" max="2099" value="2026" step="1" id="rok_tymcz"></span><br>
 Registration number:<br>
 <input type="text" id="numer"><br>
 Image scaling: <input id="scaling" type="number" min="1" max="100" step="1" value="50">% (for 50% - 1 pixel is 1 mm)<br>
@@ -94,7 +97,7 @@ Image scaling: <input id="scaling" type="number" min="1" max="100" step="1" valu
 <span id="not-yet-issued" style="display:none">This plate type wasn't issued yet.</span>
 </div>
 </div>
-<div id="footer">&copy; 2022-2025 Marcin Przybyła | version from 6 Feb 2025 | <span id="switchstyle" onclick="switchPageStyle()">Switch theme</span> | <a href="index.html">Polski</a></div>
+<div id="footer">&copy; 2022-2026 Marcin Przybyła | version from 3 May 2026 | <a id="switchstyle" onclick="switchPageStyle()" tabindex="0">Switch theme</a> | <a href="index.html">Polski</a></div>
 </div>
 </div>
 </div>
@@ -132,6 +135,9 @@ Image scaling: <input id="scaling" type="number" min="1" max="100" step="1" valu
 <img src="images/zmniejszona_zielona.png" id="tab53">
 <img src="images/motocyklowa_zielona.png" id="tab54">
 <img src="images/motorowerowa_zielona.png" id="tab55">
+<img src="images/1rz_sportowa.png" id="tab28">
+<img src="images/2rz_sportowa.png" id="tab29">
+<img src="images/zmniejszona_sportowa.png" id="tab30">
 <img src="images/1rz_f.png" id="tab1f">
 <img src="images/2rz_f.png" id="tab2f">
 <img src="images/motocyklowa_f.png" id="tab4f">
@@ -174,6 +180,7 @@ Image scaling: <input id="scaling" type="number" min="1" max="100" step="1" valu
 <img src="images/naklejka_h.png" id="naklh">
 <img src="images/naklejka_tymczasowa.png" id="naklt">
 <img src="images/naklejka_tymczasowa_2000.png" id="naklt2000">
+<img src="images/naklejka_tymczasowa_2001.png" id="naklt2001">
 <img src="images/zabytek_s.png" id="zabs">
 <img src="images/zabytek_m.png" id="zabm">
 <img src="images/zabytek_s_2000.png" id="zabs2000">
@@ -895,6 +902,16 @@ Image scaling: <input id="scaling" type="number" min="1" max="100" step="1" valu
 <img src="images/z_motorowerowe_y/A____.png" id="yrA____">
 <img src="images/z_motorowerowe_y/M____.png" id="yrM____">
 <img src="images/z_motorowerowe_y/W____.png" id="yrW____">
+<img src="images/z_tymczasowe/0.png" id="tym0">
+<img src="images/z_tymczasowe/1.png" id="tym1">
+<img src="images/z_tymczasowe/2.png" id="tym2">
+<img src="images/z_tymczasowe/3.png" id="tym3">
+<img src="images/z_tymczasowe/4.png" id="tym4">
+<img src="images/z_tymczasowe/5.png" id="tym5">
+<img src="images/z_tymczasowe/6.png" id="tym6">
+<img src="images/z_tymczasowe/7.png" id="tym7">
+<img src="images/z_tymczasowe/8.png" id="tym8">
+<img src="images/z_tymczasowe/9.png" id="tym9">
 </div>
 <script src="scripts/generator.js"></script> 
 <script src="scripts/widths_1976.js"></script> 

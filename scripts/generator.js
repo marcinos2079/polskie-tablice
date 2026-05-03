@@ -1,52 +1,59 @@
 
+function setVisibility(a)
+{
+	
+	var selectedPlateType = document.getElementById("typ").value;
+	
+	if(a == 0)
+	{
+		document.getElementById("typ").style.display = "none";
+		document.getElementById("typ_1976").style.display = "inline-block";
+		document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ_1976").value);
+		document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
+		
+		document.getElementById("symbol_zab").style.display = "none";
+		document.getElementById("naklejka_ziel").style.display = "none";
+		document.getElementById("data_tymcz").style.display = "none";
+	}
+	else
+	{
+		document.getElementById("typ").style.display = "inline-block";
+		document.getElementById("typ_1976").style.display = "none";
+		document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ").value);
+		document.getElementById("example").src = "images/wzory/" + document.getElementById("typ").value + ".png";
+		
+			if(selectedPlateType >= 6 && selectedPlateType <= 8 && document.getElementById("wzor_2006").checked) document.getElementById("symbol_zab").style.display = "inline-block";
+			else document.getElementById("symbol_zab").style.display = "none";
+		
+			if(selectedPlateType >= 51 && selectedPlateType <= 55) document.getElementById("naklejka_ziel").style.display = "inline-block";
+			else document.getElementById("naklejka_ziel").style.display = "none";
+			
+			if(selectedPlateType == 9 || selectedPlateType == 11 || selectedPlateType == 13 || selectedPlateType == 15 || selectedPlateType == 21 || (selectedPlateType >= 28 && selectedPlateType <= 30)) document.getElementById("data_tymcz").style.display = "inline-block";
+			else document.getElementById("data_tymcz").style.display = "none";
+			
+	}
+}
+
 window.addEventListener("load", (event) => {
 
-if(document.getElementById("wzor_1976").checked)
-{
-	document.getElementById("typ").style.display = "none";
-	document.getElementById("typ_1976").style.display = "inline-block";
-	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ_1976").value);
-	document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
-}
-else
-{
-	document.getElementById("typ").style.display = "inline-block";
-	document.getElementById("typ_1976").style.display = "none";
-	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ").value);
-	document.getElementById("example").src = "images/wzory/" + document.getElementById("typ").value + ".png";
-}
-
+if(document.getElementById("wzor_1976").checked) setVisibility(0);
+else setVisibility(1);
 
 });
 
-function przelaczWysw(a)
-{
-if(a == 0)
-{
-	document.getElementById("typ").style.display = "none";
-	document.getElementById("typ_1976").style.display = "inline-block";
-	document.getElementById("naklejka_ziel").style.display = "none";
-	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ_1976").value);
-	document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
-}
-else 
-{
-	document.getElementById("typ").style.display = "inline-block";
-	document.getElementById("typ_1976").style.display = "none";
-	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ").value);
-	document.getElementById("example").src = "images/wzory/" + document.getElementById("typ").value + ".png";
-}
-}
-
 function zmienWid(s)
 {
-	if(s.value >= 51 && s.value <= 55) document.getElementById("naklejka_ziel").style.display = "inline-block";
-	else document.getElementById("naklejka_ziel").style.display = "none";
 	
-	document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(s.value);
-	
-	if(document.getElementById("wzor_1976").checked) document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
-	else document.getElementById("example").src = "images/wzory/" + document.getElementById("typ").value + ".png";
+	if(document.getElementById("wzor_1976").checked) 
+	{
+		document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
+		setVisibility(0);
+	}
+	else 
+	{
+		document.getElementById("example").src = "images/wzory/" + document.getElementById("typ").value + ".png";
+		setVisibility(1);
+	}
 	
 }
 
@@ -56,21 +63,32 @@ function switchPageStyle()
 	else document.getElementById("pagestyle").setAttribute("href", "styles/style-bright.css");
 }
 
+const SINGLE_ROW_PLATES = [1, 6, 9, 10, 17, 22, 51, 28];
+const DOUBLE_ROW_PLATES = [2, 7, 11, 12, 18, 23, 52, 29];
+const REDUCED_SIZE_PLATES = [3, 26, 21, 53, 30];
+const MOTORCYCLE_PLATES = [4, 8, 13, 14, 19, 24, 54, 103, 107, 110, 113];
+const MOPED_PLATES = [5, 27, 15, 16, 20, 25, 55];
+const SINGLE_ROW_OLD_PLATES = [101, 105, 108, 111, 114];
+const DOUBLE_ROW_OLD_PLATES = [102, 106, 109, 112];
+const DOUBLE_ROW_DIPLOMATIC_OLD_PLATES = [115];
+const MOPED_OLD_PLATES = [104, 117, 118];
+const MOTORCYCLE_DIPLOMATIC_OLD_PLATES = [116];
+
 function setCanvas(a, sc)
 {
 var c_width = 0;
 var c_height = 0;
 
-if(a==1 || a==6 || a==9 || a==10 || a==17 || a==22 || a==51){c_width=1040;c_height=228;} //1-rzędowa
-else if(a==2 || a==7 || a==11 || a==12 || a==18 || a==23 || a==52){c_width=610;c_height=428;} //2-rzędowa
-else if(a==3 || a==26 || a==21 || a==53){c_width=610;c_height=228;} //zmniejszona
-else if(a==4 || a==8 || a==13 || a==14 || a==19 || a==24 || a==54 || a==103 || a==107 || a==110 || a==113){c_width=380;c_height=300;} //motocyklowa
-else if(a==5 || a==27 || a==15 || a==16 || a==20 || a==25 || a==55){c_width=280;c_height=228;} //motorowerowa
-else if(a==101 || a==105 || a==108 || a==111 || a==114){c_width=1040;c_height=240;} //1-rzędowa 1976
-else if(a==102 || a==106 || a==109 || a==112){c_width=580;c_height=460;} //2-rzędowa 1976
-else if(a==115){c_width=660;c_height=460;} //2-rzędowa dyplomatyczna 1976
-else if(a==104 || a==117 || a==118){c_width=280;c_height=230;} //motorowerowa 1976
-else if(a == 116){c_width=440;c_height=300;} //motocyklowa dyplomatyczna 1976
+if(SINGLE_ROW_PLATES.indexOf(a) >= 0){c_width=1040;c_height=228;} //1-rzędowa
+else if(DOUBLE_ROW_PLATES.indexOf(a) >= 0){c_width=610;c_height=428;} //2-rzędowa
+else if(REDUCED_SIZE_PLATES.indexOf(a) >= 0){c_width=610;c_height=228;} //zmniejszona
+else if(MOTORCYCLE_PLATES.indexOf(a) >= 0){c_width=380;c_height=300;} //motocyklowa
+else if(MOPED_PLATES.indexOf(a) >= 0){c_width=280;c_height=228;} //motorowerowa
+else if(SINGLE_ROW_OLD_PLATES.indexOf(a) >= 0){c_width=1040;c_height=240;} //1-rzędowa 1976
+else if(DOUBLE_ROW_OLD_PLATES.indexOf(a) >= 0){c_width=580;c_height=460;} //2-rzędowa 1976
+else if(DOUBLE_ROW_DIPLOMATIC_OLD_PLATES.indexOf(a) >= 0){c_width=660;c_height=460;} //2-rzędowa dyplomatyczna 1976
+else if(MOPED_OLD_PLATES.indexOf(a) >= 0){c_width=280;c_height=230;} //motorowerowa 1976
+else if(MOTORCYCLE_DIPLOMATIC_OLD_PLATES.indexOf(a) >= 0){c_width=440;c_height=300;} //motocyklowa dyplomatyczna 1976
 
 document.getElementById("tablica").width = c_width*sc;
 document.getElementById("tablica").height = c_height*sc;
@@ -79,11 +97,11 @@ document.getElementById("tablica").height = c_height*sc;
 
 function getPermittedPatterns(a)
 {
-if(a == 1 || a== 2 || a == 51 || a == 52) return "KR&nbsp;12345, KR&nbsp;1234A, KR&nbsp;123AC, KR&nbsp;1A234, KR&nbsp;1AC23, KR&nbsp;A1234, KRA&nbsp;A123, KRA&nbsp;12AC, KRA&nbsp;1A23, KRA&nbsp;12A3, KRA&nbsp;1AC2, KRA&nbsp;AC12, KRA&nbsp;12345, KRA&nbsp;1234A, KRA&nbsp;123AC";
-if(a == 3 || a== 21 || a== 26 || a== 53) return "K&nbsp;123, K&nbsp;12A, K&nbsp;1A2, K&nbsp;A12, K&nbsp;1AC, K&nbsp;AC1, K&nbsp;A1C";
+if(a == 1 || a== 2 || a == 51 || a == 52) return "KR&nbsp;12345, KR&nbsp;1234A, KR&nbsp;123AC, KR&nbsp;1A234, KR&nbsp;1AC23, KR&nbsp;A1234, KRA&nbsp;A123, KRA&nbsp;12AC, KRA&nbsp;1A23, KRA&nbsp;12A3, KRA&nbsp;1AC2, KRA&nbsp;AC12, KRA&nbsp;12345, KRA&nbsp;1234A, KRA&nbsp;123AC, <br>K1&nbsp;ABCDE, K1&nbsp;ABCD2, K1&nbsp;ABC2D, K1&nbsp;ABC23, K1&nbsp;ABCD, K1&nbsp;ABC2, K1&nbsp;AB2C, K1&nbsp;AB23, K1&nbsp;ABC, K1&nbsp;AB2, K1&nbsp;A2B, K1&nbsp;A23";
+if(a == 3 || a== 21 || a== 26 || a== 53 || a==30) return "K&nbsp;123, K&nbsp;12A, K&nbsp;1A2, K&nbsp;A12, K&nbsp;1AC, K&nbsp;AC1, K&nbsp;A1C";
 if(a == 4 || a == 5 || a == 54 || a == 55) return "KR&nbsp;1234, KR&nbsp;123A, KR&nbsp;A123, KR&nbsp;12AC, KR&nbsp;1A23, KR&nbsp;12A3, KR&nbsp;1AC2, KR&nbsp;AC12, KRA&nbsp;A123, KRA&nbsp;12AC, KRA&nbsp;1A23, KRA&nbsp;12A3, KRA&nbsp;1AC2, KRA&nbsp;AC12, KRA&nbsp;A12C, KRA&nbsp;A1CE";
 if(a == 6 || a == 7 || a == 8 || a == 27) return "KR&nbsp;123, KR&nbsp;12A, KRA&nbsp;1A, KRA&nbsp;A1, KRA&nbsp;12";
-if(a == 9 || a == 11 || a == 13 || a == 15) return "K1&nbsp;2345, K1&nbsp;234A";
+if(a == 9 || a == 11 || a == 13 || a == 15 || a==28 || a==29) return "K1&nbsp;2345, K1&nbsp;234A";
 if(a == 10 || a == 12 || a == 14 || a == 16) return "K1&nbsp;234&nbsp;B";
 if(a == 17 || a == 18 || a == 19 || a == 20) return "W&nbsp;123456"; 
 if(a == 22 || a == 23 || a == 24 || a == 25) return "K12&nbsp;34<b>P</b>56, K12&nbsp;34<b>P</b>5A";
@@ -1019,11 +1037,11 @@ spos_wide:[14.5,66.5]
 {
 type:5, //2. zasób grodzki
 regex:/^[A-Z][A-Z][0-9][0-9][0-9][A-Z]$/, 
-cpos_narrow:[[58,17.5],[90,17.5],[40,66.5],[63,66.5],[86,66.5],[109,66.5]], 
+cpos_narrow:[[58,17.5],[90,17.5],[36,66.5],[59,66.5],[82,66.5],[105,66.5]], 
 cpos_wide:[[58,17.5],[90,17.5],[36,66.5],[59,66.5],[82,66.5],[105,66.5]], 
 width:[1,1,1,1,1,1],
-spos_narrow:[14.5,66.5],
-spos_wide:[14.5,66.5]
+spos_narrow:[12.5,66.5],
+spos_wide:[12.5,66.5]
 },
 {
 type:5,
@@ -1481,6 +1499,24 @@ spos_narrow:[200.5,34.5],
 spos_wide:[206.5,34.5]
 },
 {
+type:28, //tablice tymczasowe
+regex:/^[A-Z][0-9][0-9][0-9][0-9][0-9]$/, 
+cpos_narrow:[[67,17],[130,17],[273,17],[329,17],[385,17],[441,17]], 
+cpos_wide:[[66,17],[136,17],[279,17],[334,17],[389,17],[444,17]],
+width:[1,1,1,1,1,1],
+spos_narrow:[200.5,34.5],
+spos_wide:[206.5,34.5],
+},
+{
+type:28,
+regex:/^[A-Z][0-9][0-9][0-9][0-9][A-Z]$/, 
+cpos_narrow:[[67,17],[130,17],[273,17],[329,17],[385,17],[441,17]], 
+cpos_wide:[[66,17],[136,17],[279,17],[334,17],[389,17],[444,17]],
+width:[1,1,1,1,1,0],
+spos_narrow:[200.5,34.5],
+spos_wide:[206.5,34.5]
+},
+{
 type:10, //tablice tymczasowe badawcze
 regex:/[A-Z][0-9][0-9][0-9][0-9][A-Z]$/, 
 cpos_narrow:[[67,17],[130,17],[223,17],[280,17],[337,17],[430,17]], 
@@ -1500,6 +1536,24 @@ spos_wide:[219.5,34.5],
 },
 {
 type:11,
+regex:/[A-Z][0-9][0-9][0-9][0-9][A-Z]$/, 
+cpos_narrow:[[75,17],[140,17],[36,117],[98,117],[160,117],[222,117]],  
+cpos_wide:[[72,17],[144,17],[36,117],[98,117],[160,117],[222,117]], 
+width:[1,1,1,1,1,0],
+spos_narrow:[218.5,34.5],
+spos_wide:[219.5,34.5],
+},
+{
+type:29, //tablice dwurzędowe tymczasowe
+regex:/[A-Z][0-9][0-9][0-9][0-9][0-9]$/, 
+cpos_narrow:[[75,17],[140,17],[36,117],[99,117],[162,117],[225,117]], 
+cpos_wide:[[72,17],[144,17],[36,117],[99,117],[162,117],[225,117]],  
+width:[1,1,1,1,1,1],
+spos_narrow:[218.5,34.5],
+spos_wide:[219.5,34.5],
+},
+{
+type:29,
 regex:/[A-Z][0-9][0-9][0-9][0-9][A-Z]$/, 
 cpos_narrow:[[75,17],[140,17],[36,117],[98,117],[160,117],[222,117]],  
 cpos_wide:[[72,17],[144,17],[36,117],[98,117],[160,117],[222,117]], 
@@ -1673,6 +1727,69 @@ width:[0,0,1,0],
 spos_narrow:[93,32.5],
 spos_wide:[93,32.5]
 },
+{
+type:30,
+regex:/^[A-Z][0-9][0-9][0-9]$/, 
+cpos_narrow:[[54,17],[136,17],[187,17],[238,17]], 
+cpos_wide:[[54,17],[136,17],[187,17],[238,17]], 
+width:[0,1,1,1],
+spos_narrow:[93,32.5],
+spos_wide:[93,32.5]
+},
+{
+type:30,
+regex:/^[A-Z][0-9][0-9][A-Z]$/, 
+cpos_narrow:[[54,17],[136,17],[187,17],[238,17]], 
+cpos_wide:[[54,17],[136,17],[187,17],[238,17]], 
+width:[0,1,1,0],
+spos_narrow:[93,32.5],
+spos_wide:[93,32.5]
+},
+{
+type:30,
+regex:/^[A-Z][0-9][A-Z][0-9]$/, 
+cpos_narrow:[[54,17],[136,17],[187,17],[242,17]], 
+cpos_wide:[[54,17],[136,17],[187,17],[242,17]],
+width:[0,1,0,1],
+spos_narrow:[93,32.5],
+spos_wide:[93,32.5]
+},
+{
+type:30,
+regex:/^[A-Z][A-Z][0-9][0-9]$/, 
+cpos_narrow:[[54,17],[136,17],[191,17],[242,17]], 
+cpos_wide:[[54,17],[136,17],[191,17],[242,17]],
+width:[0,0,1,1], 
+spos_narrow:[93,32.5],
+spos_wide:[93,32.5]
+},
+{
+type:30,
+regex:/^[A-Z][0-9][A-Z][A-Z]$/, 
+cpos_narrow:[[54,17],[136,17],[185,17],[238,17]], 
+cpos_wide:[[54,17],[136,17],[185,17],[238,17]], 
+width:[0,1,0,0],
+spos_narrow:[93,32.5],
+spos_wide:[93,32.5]
+},
+{
+type:30,
+regex:/^[A-Z][A-Z][A-Z][0-9]$/, 
+cpos_narrow:[[54,17],[136,17],[189,17],[242,17]], 
+cpos_wide:[[54,17],[136,17],[189,17],[242,17]], 
+width:[0,0,0,1],
+spos_narrow:[93,32.5],
+spos_wide:[93,32.5]
+},
+{
+type:30,
+regex:/^[A-Z][A-Z][0-9][A-Z]$/, 
+cpos_narrow:[[54,17],[136,17],[189,17],[238,17]], 
+cpos_wide:[[54,17],[136,17],[189,17],[238,17]], 
+width:[0,0,1,0],
+spos_narrow:[93,32.5],
+spos_wide:[93,32.5]
+},
 //profesjonalne
 {
 type:22,
@@ -1681,7 +1798,7 @@ cpos_narrow:[[60,17],[117,17],[170,17],[248,17],[301,17],[354,17],[411,17],[464,
 cpos_wide:[[60,17],[117,17],[170,17],[248,17],[301,17],[354,17],[411,17],[464,17]], 
 width:[0,1,1,1,1,0,1,1],
 spos_narrow:[221.5,42], 
-spos_wide:[222,42],
+spos_wide:[221.5,42],
 epos:[223.5,17], 
 },
 {
@@ -1691,7 +1808,7 @@ cpos_narrow:[[55,17],[112,17],[165,17],[243,17],[296,17],[349,17],[406,17],[459,
 cpos_wide:[[55,17],[112,17],[165,17],[243,17],[296,17],[349,17],[406,17],[459,17]], 
 width:[0,1,1,1,1,0,1,0],
 spos_narrow:[216.5,42], 
-spos_wide:[217,42],
+spos_wide:[216.5,42],
 epos:[218.5,17], 
 },
 {
@@ -1701,7 +1818,7 @@ cpos_narrow:[[80,17],[137,17],[190,17],[23,117],[76,117],[129,117],[186,117],[23
 cpos_wide:[[80,17],[137,17],[190,17],[23,117],[76,117],[129,117],[186,117],[239,117]],
 width:[0,1,1,1,1,0,1,1],
 spos_narrow:[256.5,42],
-spos_wide:[256,42],
+spos_wide:[256.5,42],
 epos:[258.5,17],
 },
 {
@@ -1711,7 +1828,7 @@ cpos_narrow:[[80,17],[137,17],[190,17],[23,117],[76,117],[129,117],[186,117],[23
 cpos_wide:[[80,17],[137,17],[190,17],[23,117],[76,117],[129,117],[186,117],[239,117]], 
 width:[0,1,1,1,1,0,1,0],
 spos_narrow:[256.5,42],
-spos_wide:[256,42],
+spos_wide:[256.5,42],
 epos:[258.5,17],
 },
 {
@@ -1720,8 +1837,8 @@ regex:/^[A-Z][0-9][0-9][0-9][0-9]P[0-9][0-9]$/,
 cpos_narrow:[[50,20],[84,20],[118,20],[13,85],[47,85],[81,85],[115,85],[149,85]], 
 cpos_wide:[[50,20],[84,20],[118,20],[13,85],[47,85],[81,85],[115,85],[149,85]], 
 width:[0,1,1,1,1,0,1,1],
-spos_narrow:[155.5,32.5],
-spos_wide:[156,32.5],
+spos_narrow:[155.5,35],
+spos_wide:[155.5,35],
 epos:[157.5,15],
 },
 {
@@ -1730,8 +1847,8 @@ regex:/^[A-Z][0-9][0-9][0-9][0-9]P[0-9][A-Z]$/,
 cpos_narrow:[[50,20],[84,20],[118,20],[13,85],[47,85],[81,85],[115,85],[149,85]], 
 cpos_wide:[[50,20],[84,20],[118,20],[13,85],[47,85],[81,85],[115,85],[149,85]], 
 width:[0,1,1,1,1,0,1,0],
-spos_narrow:[155.5,32.5],
-spos_wide:[156,32.5],
+spos_narrow:[155.5,35],
+spos_wide:[155.5,35],
 epos:[157.5,15],
 },
 {
@@ -1740,8 +1857,8 @@ regex:/^[A-Z][0-9][0-9][0-9][0-9]P[0-9][0-9]$/,
 cpos_narrow:[[43,17.5],[69,17.5],[91,17.5],[12,66.5],[34,66.5],[56,66.5],[82,66.5],[104,66.5]], 
 cpos_wide:[[43,17.5],[69,17.5],[91,17.5],[12,66.5],[34,66.5],[56,66.5],[82,66.5],[104,66.5]],
 width:[1,1,1,1,1,1,1,1],
-spos_narrow:[111,32.5],
-spos_wide:[112,32.5]
+spos_narrow:[111,17.5],
+spos_wide:[111,17.5],
 },
 {
 type:25,
@@ -1749,8 +1866,8 @@ regex:/^[A-Z][0-9][0-9][0-9][0-9]P[0-9][A-Z]$/,
 cpos_narrow:[[43,17.5],[69,17.5],[91,17.5],[12,66.5],[34,66.5],[56,66.5],[82,66.5],[104,66.5]], 
 cpos_wide:[[43,17.5],[69,17.5],[91,17.5],[12,66.5],[34,66.5],[56,66.5],[82,66.5],[104,66.5]],
 width:[1,1,1,1,1,1,1,1],
-spos_narrow:[111,32.5],
-spos_wide:[112,32.5]
+spos_narrow:[111,17.5],
+spos_wide:[111,17.5],
 },
 {
 type:101, //czarne 1-rz 4 cyfry
@@ -1864,6 +1981,13 @@ cpos_wide:[[15,20],[62,20],[139,20],[177,20],[35,85],[79,85],[123,85]],
 },
 ];
 
+function setNotIssuedText(n_text_pl, n_text_en)
+{
+	document.getElementById("not-yet-issued").style.display="inline-block";
+	if(document.documentElement.lang == "pl") document.getElementById("not-yet-issued").innerText = n_text_pl;
+	else if(document.documentElement.lang == "en") document.getElementById("not-yet-issued").innerText = n_text_en;
+}
+
 function generate()
 {
 var t = parseInt(document.getElementById("typ").value);
@@ -1879,51 +2003,45 @@ var manufacturer_name = "PTR";
 
 var scaling = document.getElementById("scaling").value / 100.0;
 
-ctx.imageSmoothingEnabled = true;
+ctx.imageSmoothingEnabled = false;
 
 ctx.clearRect(0, 0, 1040, 460);
 
 //nieaktualne wzory
 if((document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || document.getElementById("wzor_2006").checked) && t >= 51 && t <= 55) //tablice zielone wydaje się od 01.2020
 {
-	document.getElementById("not-yet-issued").style.display="inline-block";
-	if(document.documentElement.lang == "pl") document.getElementById("not-yet-issued").innerText = "Błędny wzór tablicy: Tablice zielone wydawane są od stycznia 2020.";
-	else if(document.documentElement.lang == "en") document.getElementById("not-yet-issued").innerText = "Incorrect plate style: Green plates are issued since January 2020.";
+	setNotIssuedText("Błędny wzór tablicy: Tablice zielone wydawane są od stycznia 2020.", "Incorrect plate style: Green plates are issued since January 2020.");
 }
 else if((document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || document.getElementById("wzor_2006").checked) && (t==3 || t==21 || t==53)) //tablice zmniejszone wydaje się od 07.2018
 {
-	document.getElementById("not-yet-issued").style.display="inline-block";
-	if(document.documentElement.lang == "pl") document.getElementById("not-yet-issued").innerText = "Błędny wzór tablicy: Tablice zmniejszone wydawane są od lipca 2018.";
-	else if(document.documentElement.lang == "en") document.getElementById("not-yet-issued").innerText = "Incorrect plate style: Reduced size plates are issued since July 2018.";
+	setNotIssuedText("Błędny wzór tablicy: Tablice zmniejszone wydawane są od lipca 2018.", "Incorrect plate style: Reduced size plates are issued since July 2018.");
 }
 else if((document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || document.getElementById("wzor_2006").checked) && t>= 22 && t <= 25) //tablice profesjonalne wydaje się od 07.2019
 {
-	document.getElementById("not-yet-issued").style.display="inline-block";
-	if(document.documentElement.lang == "pl") document.getElementById("not-yet-issued").innerText = "Błędny wzór tablicy: Tablice profesjonalne wydawane są od lipca 2019.";
-	else if(document.documentElement.lang == "en") document.getElementById("not-yet-issued").innerText = "Incorrect plate style: Professional plates are issued since July 2019.";
+	setNotIssuedText("Błędny wzór tablicy: Tablice profesjonalne wydawane są od lipca 2019.", "Incorrect plate style: Professional plates are issued since July 2019.");
+}
+else if((document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || document.getElementById("wzor_2006").checked || document.getElementById("wzor_2018").checked) && t>= 28 && t <= 30) //tablice sportowe wydaje się od 12.2024
+{
+	setNotIssuedText("Błędny wzór tablicy: Tablice sportowe wydawane są od grudnia 2024.", "Incorrect plate style: Sports plates are issued since December 2024.");
 }
 else if(document.getElementById("wzor_2020").checked && (t==10 || t==12 || t==14 || t==16)) //tablice badawcze wycofano w 07.2019
 {
-	document.getElementById("not-yet-issued").style.display="inline-block";
-	if(document.documentElement.lang == "pl") document.getElementById("not-yet-issued").innerText = "Błędny wzór tablicy: Tablice tymczasowe badawcze nie są już wydawane od lipca 2019.";
-	else if(document.documentElement.lang == "en") document.getElementById("not-yet-issued").innerText = "Incorrect plate style: Temporary testing plates are no more issued since July 2019.";
+	setNotIssuedText("Błędny wzór tablicy: Tablice tymczasowe badawcze nie są już wydawane od lipca 2019.", "Incorrect plate style: Temporary testing plates are no more issued since July 2019.");
 }
 else if((document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || document.getElementById("wzor_2006").checked || document.getElementById("wzor_2018").checked) && (t == 26 || t == 27)) //tablice zabytkowe zmniejszone i motorowerowe wydaje się od 09.2022 / 05.2023
 {
-	document.getElementById("not-yet-issued").style.display="inline-block";
-	if(document.documentElement.lang == "pl") document.getElementById("not-yet-issued").innerText = "Błędny wzór tablicy: Tablice zabytkowe motorowerowe i zmniejszone wydawane są od września 2022 / maja 2023.";
-	else if(document.documentElement.lang == "en") document.getElementById("not-yet-issued").innerText = "Incorrect plate style: Reduced size & moped classic plates are issued since September 2022 / May 2023.";
+	setNotIssuedText("Błędny wzór tablicy: Tablice zabytkowe motorowerowe i zmniejszone wydawane są od września 2022 / maja 2023.", "Incorrect plate style: Reduced size & moped classic plates are issued since September 2022 / May 2023.");
 }
 else
 {
 	document.getElementById("not-yet-issued").style.display="none";
 }
 
-if(document.getElementById("wzor_1976").checked == false) setCanvas(t, scaling);
-else setCanvas(t1976, scaling);
-
 if(document.getElementById("wzor_1976").checked == false)
 {
+
+setCanvas(t, scaling);
+	
 for(var i = 0; i < zasoby.length; i++)
 {
 if(zasoby[i].type == t%50 && zasoby[i].regex.test(n))
@@ -1961,6 +2079,9 @@ else if(t == 24)   elem_name = "zm"+n[j] + ((n.charCodeAt(j) >= 48 && n.charCode
 else if(t == 25)   elem_name = "zr"+n[j];
 else if(t == 26)   elem_name = "s"+n[j]  + ((n.charCodeAt(j) >= 48 && n.charCodeAt(j) <= 57) ? "" : "_");
 else if(t == 27)   elem_name = "r"+n[j];
+else if(t == 28)    elem_name = "cs"+n[j] + ((n.charCodeAt(j) >= 48 && n.charCodeAt(j) <= 57) ? "" : "_");
+else if(t == 29)    elem_name = "cs"+n[j] + ((n.charCodeAt(j) >= 48 && n.charCodeAt(j) <= 57) ? "" : "_");
+else if(t == 30)    elem_name = "cs"+n[j] + ((n.charCodeAt(j) >= 48 && n.charCodeAt(j) <= 57) ? "" : "_");
 
 ctx.drawImage(document.getElementById(elem_name), 2*scaling*(zasoby[i].cpos_narrow[j][0])-(5*scaling), 2*scaling*(zasoby[i].cpos_narrow[j][1])-(5*scaling), scaling*document.getElementById(elem_name).width, scaling*document.getElementById(elem_name).height);
 }
@@ -1991,6 +2112,9 @@ else if(t == 24)   elem_name = "zm"+n[j] + ((zasoby[i].width[j] == 0) ? "_" : ""
 else if(t == 25)   elem_name = "zr"+n[j];
 else if(t == 26)   elem_name = "s"+n[j]  + ((zasoby[i].width[j] == 0) ? "_" : "");
 else if(t == 27) elem_name = "r"+n[j];
+else if(t == 28)    elem_name = "cs"+n[j] + ((zasoby[i].width[j] == 0) ? "_" : "");
+else if(t == 29)   elem_name = "cs"+n[j] + ((zasoby[i].width[j] == 0) ? "_" : "");
+else if(t == 30)   elem_name = "cs"+n[j] + ((zasoby[i].width[j] == 0) ? "_" : "");
 
 if(document.getElementById("wzor_2000").checked && (n.charAt(j) == "M" || n.charAt(j) == "W")) elem_name += "__";
 
@@ -2000,124 +2124,110 @@ ctx.drawImage(document.getElementById(elem_name), 2*scaling*(zasoby[i].cpos_wide
 }
 
 var offset_y_mot = 0;
-if((t == 4 || t == 8 || t == 19 || t == 54) && !document.getElementById("wzor_2020").checked) offset_y_mot = 7.5;
+if((t == 4 || t == 8 || t == 19 || t == 24 || t == 54) && !document.getElementById("wzor_2020").checked) offset_y_mot = 7.5; //przesuń naklejkę wyżej dla tablic motocyklowych bez nadruków laserowych
 
-if(document.getElementById("wzor_2020").checked || document.getElementById("wzor_2018").checked) //nalepka legalizacyjna
+const stickerPosArray = (document.getElementById("wzor_2020").checked || document.getElementById("wzor_2018").checked) ? zasoby[i].spos_narrow : zasoby[i].spos_wide;
+const symbolPosArray = (document.getElementById("wzor_2020").checked || document.getElementById("wzor_2018").checked) ? zasoby[i].apos_narrow : zasoby[i].apos_wide;
+
+if((t >= 1 && t <= 8) || t == 10 || t == 12 || t == 14 || t == 16 || (t >= 17 && t <= 20) || (t >= 22 && t <= 27)) //nalepka legalizacyjna
 {
-if((t >= 1 && t <= 8) || t == 10 || t == 12 || t == 14 || t == 16 || (t >= 17 && t <= 20) || (t >= 22 && t <= 27))
+ctx.drawImage(document.getElementById("nakl"), 2*scaling*stickerPosArray[0], 2*scaling*(stickerPosArray[1]-offset_y_mot), scaling*document.getElementById("nakl").width, scaling*document.getElementById("nakl").height);
+}
+if(t >= 51 && t <= 55) //naklejka na zielonych tablicach
 {
-ctx.drawImage(document.getElementById("nakl"), 2*scaling*zasoby[i].spos_narrow[0], 2*scaling*(zasoby[i].spos_narrow[1]-offset_y_mot), scaling*document.getElementById("nakl").width, scaling*document.getElementById("nakl").height);
+if(document.getElementById("w_nakl_e").checked) ctx.drawImage(document.getElementById("nakle"), 2*scaling*stickerPosArray[0], 2*scaling*(stickerPosArray[1]-offset_y_mot), scaling*document.getElementById("nakle").width, scaling*document.getElementById("nakle").height);
+else ctx.drawImage(document.getElementById("naklh"), 2*scaling*stickerPosArray[0], 2*scaling*(stickerPosArray[1]-offset_y_mot), scaling*document.getElementById("naklh").width, scaling*document.getElementById("naklh").height);
 }
-if(t >= 51 && t <= 55)
+if(t == 9 || t == 11 || t == 13 || t == 15 || t == 21 || (t >= 28 && t <= 30)) //naklejka na tablicach tymczasowych i sportowych
 {
-if(document.getElementById("w_nakl_e").checked) ctx.drawImage(document.getElementById("nakle"), 2*scaling*zasoby[i].spos_narrow[0], 2*scaling*(zasoby[i].spos_narrow[1]-offset_y_mot), scaling*document.getElementById("nakle").width, scaling*document.getElementById("nakle").height);
-else ctx.drawImage(document.getElementById("naklh"), 2*scaling*zasoby[i].spos_narrow[0], 2*scaling*(zasoby[i].spos_narrow[1]-offset_y_mot), scaling*document.getElementById("naklh").width, scaling*document.getElementById("naklh").height);
-}
-if(t == 9 || t == 11 || t == 13 || t == 15 || t == 21)
-{
-ctx.drawImage(document.getElementById("naklt"), 2*scaling*zasoby[i].spos_narrow[0], 2*scaling*zasoby[i].spos_narrow[1], scaling*document.getElementById("naklt").width, scaling*document.getElementById("naklt").height);
-}
-}
+	
+if(document.getElementById("rok_tymcz").value == 2000) ctx.drawImage(document.getElementById("naklt2000"), 2*scaling*stickerPosArray[0], 2*scaling*stickerPosArray[1], scaling*document.getElementById("naklt2000").width, scaling*document.getElementById("naklt2000").height);
+else if(document.getElementById("rok_tymcz").value == 2001) ctx.drawImage(document.getElementById("naklt2001"), 2*scaling*stickerPosArray[0], 2*scaling*stickerPosArray[1], scaling*document.getElementById("naklt2001").width, scaling*document.getElementById("naklt2001").height);
 else
 {
-if((t >= 1 && t <= 8) || t == 10 || t == 12 || t == 14 || t == 16 || (t >= 17 && t <= 20) || (t >= 22 && t <= 27))
-{
-ctx.drawImage(document.getElementById("nakl"), 2*scaling*zasoby[i].spos_wide[0], 2*scaling*(zasoby[i].spos_wide[1]-offset_y_mot), scaling*document.getElementById("nakl").width, scaling*document.getElementById("nakl").height);
-}
-if(t >= 51 && t <= 55)
-{
-if(document.getElementById("w_nakl_e").checked) ctx.drawImage(document.getElementById("nakle"), 2*scaling*zasoby[i].spos_wide[0], 2*scaling*(zasoby[i].spos_wide[1]-offset_y_mot), scaling*document.getElementById("nakle").width, scaling*document.getElementById("nakle").height);
-else ctx.drawImage(document.getElementById("naklh"), 2*scaling*zasoby[i].spos_narrow[0], 2*scaling*(zasoby[i].spos_wide[1]-offset_y_mot), scaling*document.getElementById("naklh").width, scaling*document.getElementById("naklh").height);
-}
-if(t == 9 || t == 11 || t == 13 || t == 15 || t == 21)
-{
-if(document.getElementById("wzor_2000").checked) ctx.drawImage(document.getElementById("naklt2000"), 2*scaling*zasoby[i].spos_wide[0], 2*scaling*zasoby[i].spos_wide[1], scaling*document.getElementById("naklt2000").width, scaling*document.getElementById("naklt2000").height);
-else ctx.drawImage(document.getElementById("naklt"), 2*scaling*zasoby[i].spos_wide[0], 2*scaling*zasoby[i].spos_wide[1], scaling*document.getElementById("naklt").width, scaling*document.getElementById("naklt").height);
-}
-}
+ctx.drawImage(document.getElementById("naklt"), 2*scaling*stickerPosArray[0], 2*scaling*stickerPosArray[1], scaling*document.getElementById("naklt").width, scaling*document.getElementById("naklt").height);
 
-if(document.getElementById("wzor_2020").checked || document.getElementById("wzor_2018").checked)
+var temp_year = document.getElementById("rok_tymcz").value % 100;
+var td1 = "tym" + Math.floor(temp_year / 10);
+var td2 = "tym" + (temp_year % 10);
+var td3 = "tym" + Math.floor((temp_year+1) / 10);
+var td4 = "tym" + ((temp_year+1) % 10);
+var td5 = "tym" + Math.floor((temp_year+2) / 10);
+var td6 = "tym" + ((temp_year+2) % 10);
+
+if(temp_year >= 8) //2008+
 {
-if(t == 6 || t == 7)
-{
-ctx.drawImage(document.getElementById("zabs"), 2*scaling*(zasoby[i].apos_narrow[0])-(5*scaling), 2*scaling*(zasoby[i].apos_narrow[1])-(5*scaling), scaling*document.getElementById("zabs").width, scaling*document.getElementById("zabs").height);
+ctx.drawImage(document.getElementById("tym2"), 2*scaling*(stickerPosArray[0]+14),  2*scaling*(stickerPosArray[1]+23), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById("tym0"), 2*scaling*(stickerPosArray[0]+17),  2*scaling*(stickerPosArray[1]+23), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById(td1), 2*scaling*(stickerPosArray[0]+26),  2*scaling*(stickerPosArray[1]+14), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById(td2), 2*scaling*(stickerPosArray[0]+29),  2*scaling*(stickerPosArray[1]+14), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById(td3), 2*scaling*(stickerPosArray[0]+30),  2*scaling*(stickerPosArray[1]+23), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById(td4), 2*scaling*(stickerPosArray[0]+33),  2*scaling*(stickerPosArray[1]+23), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById(td5), 2*scaling*(stickerPosArray[0]+26),  2*scaling*(stickerPosArray[1]+32), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById(td6), 2*scaling*(stickerPosArray[0]+29),  2*scaling*(stickerPosArray[1]+32), scaling*7, scaling*9);
 }
-if(t == 8)
+else if(temp_year >= 2 && temp_year < 8) //2002-2007
 {
-ctx.drawImage(document.getElementById("zabm"), 2*scaling*(zasoby[i].apos_narrow[0])-(5*scaling), 2*scaling*(zasoby[i].apos_narrow[1])-(5*scaling), scaling*document.getElementById("zabm").width, scaling*document.getElementById("zabm").height);
+ctx.drawImage(document.getElementById("tym2"), 2*scaling*(stickerPosArray[0]+14),  2*scaling*(stickerPosArray[1]+23), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById("tym0"), 2*scaling*(stickerPosArray[0]+17),  2*scaling*(stickerPosArray[1]+23), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById("tym0"), 2*scaling*(stickerPosArray[0]+20),  2*scaling*(stickerPosArray[1]+23), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById(td2), 2*scaling*(stickerPosArray[0]+28),  2*scaling*(stickerPosArray[1]+14), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById(td4), 2*scaling*(stickerPosArray[0]+32),  2*scaling*(stickerPosArray[1]+23), scaling*7, scaling*9);
+ctx.drawImage(document.getElementById(td6), 2*scaling*(stickerPosArray[0]+28),  2*scaling*(stickerPosArray[1]+32), scaling*7, scaling*9);	
 }
-if(t == 27)
+}
+}
+if(t == 6 || t == 7) //zabytkowe 1-rz i 2-rz
 {
-ctx.drawImage(document.getElementById("zabr"), 2*scaling*(zasoby[i].apos_wide[0])-(5*scaling), 2*scaling*(zasoby[i].apos_wide[1])-(5*scaling), scaling*document.getElementById("zabr").width, scaling*document.getElementById("zabr").height);
+if(document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || (document.getElementById("wzor_2006").checked && document.getElementById("w_zab_s").checked)) ctx.drawImage(document.getElementById("zabs2000"), 2*scaling*(symbolPosArray[0])-(5*scaling), 2*scaling*(symbolPosArray[1])-(5*scaling), scaling*document.getElementById("zabs2000").width, scaling*document.getElementById("zabs2000").height);
+else ctx.drawImage(document.getElementById("zabs"), 2*scaling*(symbolPosArray[0])-(5*scaling), 2*scaling*(symbolPosArray[1])-(5*scaling), scaling*document.getElementById("zabs").width, scaling*document.getElementById("zabs").height);
 }
-if(t == 26)
+if(t == 8) //zabytkowe motocyklowe
+{
+if(document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || (document.getElementById("wzor_2006").checked && document.getElementById("w_zab_s").checked)) ctx.drawImage(document.getElementById("zabm2000"), 2*scaling*(symbolPosArray[0])-(5*scaling), 2*scaling*(symbolPosArray[1])-(5*scaling), scaling*document.getElementById("zabm2000").width, scaling*document.getElementById("zabm2000").height);
+else ctx.drawImage(document.getElementById("zabm"), 2*scaling*(symbolPosArray[0])-(5*scaling), 2*scaling*(symbolPosArray[1])-(5*scaling), scaling*document.getElementById("zabm").width, scaling*document.getElementById("zabm").height);
+}
+if(t == 27) //zabytkowe motorowerowe
+{
+ctx.drawImage(document.getElementById("zabr"), 2*scaling*(symbolPosArray[0])-(5*scaling), 2*scaling*(symbolPosArray[1])-(5*scaling), scaling*document.getElementById("zabr").width, scaling*document.getElementById("zabr").height);
+}
+if(t == 26) //zabytkowe zmniejszone
 {
 ctx.drawImage(document.getElementById("zabsg"), 2*scaling*(zasoby[i].epos[0]-5.5), 2*scaling*81.5, scaling*document.getElementById("zabsg").width, scaling*document.getElementById("zabsg").height);
 }
-}
-else
-{
-if(t == 6 || t == 7)
-{
-if(document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked) ctx.drawImage(document.getElementById("zabs2000"), 2*scaling*(zasoby[i].apos_wide[0])-(5*scaling), 2*scaling*(zasoby[i].apos_wide[1])-(5*scaling), scaling*document.getElementById("zabs2000").width, scaling*document.getElementById("zabs2000").height);
-else ctx.drawImage(document.getElementById("zabs"), 2*scaling*(zasoby[i].apos_wide[0])-(5*scaling), 2*scaling*(zasoby[i].apos_wide[1])-(5*scaling), scaling*document.getElementById("zabs").width, scaling*document.getElementById("zabs").height);
-}
-if(t == 8)
-{
-if(document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked) ctx.drawImage(document.getElementById("zabm2000"), 2*scaling*(zasoby[i].apos_wide[0])-(5*scaling), 2*scaling*(zasoby[i].apos_wide[1])-(5*scaling), scaling*document.getElementById("zabm2000").width, scaling*document.getElementById("zabm2000").height);
-else ctx.drawImage(document.getElementById("zabm"), 2*scaling*(zasoby[i].apos_wide[0])-(5*scaling), 2*scaling*(zasoby[i].apos_wide[1])-(5*scaling), scaling*document.getElementById("zabm").width, scaling*document.getElementById("zabm").height);
-}
-if(t == 27)
-{
-ctx.drawImage(document.getElementById("zabr"), 2*scaling*(zasoby[i].apos_wide[0])-(5*scaling), 2*scaling*(zasoby[i].apos_wide[1])-(5*scaling), scaling*document.getElementById("zabr").width, scaling*document.getElementById("zabr").height);
-}
-}
 
-if(document.getElementById("wzor_2020").checked)
+if(document.getElementById("wzor_2020").checked) //nadruki laserowe
 {
 	
-if(!(t==5 || (t>= 9 && t<=16) || t==20 || t==21 || t==25 || t==55))
+if(!(t==5 || (t>= 9 && t<=16) || t==20 || t==21 || t==25 || t==55 || (t >= 28 && t <= 30)))
 ctx.drawImage(document.getElementById("orzel"), 2*scaling*zasoby[i].epos[0], 2*scaling*zasoby[i].epos[1], scaling*document.getElementById("orzel").width, scaling*document.getElementById("orzel").height);
 //oznaczenie certyfikatu
 ctx.fillStyle = "#00000044";
 ctx.textAlign = "left";
 ctx.font = 2*scaling*4 + "px Arial,sans-serif";
 
-var offset = 0; //dla tymczasowych przesunąć drugi nadruk na środek naklejki
-if((t>= 9 && t<=16) || t==21) offset = 16;
+var offset = 0; 
+if((t>= 9 && t<=16) || t==21 || (t >= 28 && t <= 30)) offset = 16; //dla tymczasowych przesunąć drugi nadruk na środek naklejki
 
-if(t==1 || t==6 || t==9 || t==10 || t==17 || t==22 || t==51) //1-rz
+if(SINGLE_ROW_PLATES.indexOf(t) >= 0 || REDUCED_SIZE_PLATES.indexOf(t) >= 0)
 {
 	ctx.fillText(cert_number, 2*scaling*54, canvas.height-(2*scaling*9));
 	ctx.textAlign = "center";
 	ctx.fillText((manufacturer_name+" "+cert_number), 2*scaling*(zasoby[i].spos_narrow[0]+9+offset), canvas.height-(2*scaling*9));
 }
-else if(t==2 || t==7 || t==11 || t==12 || t==18 || t==23 || t==52)
+else if(DOUBLE_ROW_PLATES.indexOf(t) >= 0 || MOTORCYCLE_PLATES.indexOf(t) >= 0)
 {
 	ctx.fillText(cert_number, 2*scaling*18, canvas.height-(2*scaling*9));
 	ctx.textAlign = "center";
 	ctx.fillText((manufacturer_name+" "+cert_number), 2*scaling*(zasoby[i].spos_narrow[0]+9+offset), canvas.height-(2*scaling*9));
 
 }
-else if(t==3 || t==26 || t==21 || t==53)
-{
-	ctx.fillText(cert_number, 2*scaling*54, canvas.height-(2*scaling*9));
-	ctx.textAlign = "center";
-	ctx.fillText((manufacturer_name+" "+cert_number), 2*scaling*(zasoby[i].spos_narrow[0]+9+offset), canvas.height-(2*scaling*9));
-
-}
-else if(t==4 || t==8 || t==13 || t==14 || t==19 || t==24 || t==54)
+else if(MOPED_PLATES.indexOf(t) >= 0)
 {
 	ctx.fillText(cert_number, 2*scaling*18, canvas.height-(2*scaling*9));
 	ctx.textAlign = "center";
-	ctx.fillText((manufacturer_name+" "+cert_number), 2*scaling*(zasoby[i].spos_narrow[0]+9+offset), canvas.height-(2*scaling*9));
-
-}
-else if(t==5 || t==27 || t==15 || t==16 || t==20 || t==25 || t==55)
-{
-	ctx.textAlign = "center";
-	ctx.fillText((manufacturer_name+" "+cert_number), (canvas.width/2.0), canvas.height-(2*scaling*9));
-
+	if(zasoby[i].spos_narrow[0] >= 50 && zasoby[i].spos_narrow[0] <= 110) ctx.fillText((manufacturer_name+" "+cert_number), 2*scaling*(zasoby[i].spos_narrow[0]+9+offset), canvas.height-(2*scaling*9)); //pod naklejką
+	else ctx.fillText((manufacturer_name+" "+cert_number), (canvas.width / 2.0), canvas.height-(2*scaling*9)); //na środku
 }
 
 }
@@ -2127,6 +2237,9 @@ else if(t==5 || t==27 || t==15 || t==16 || t==20 || t==25 || t==55)
 }
 else
 {
+	
+setCanvas(t1976, scaling);	
+	
 for(var i = 0; i < zasoby.length; i++)
 {
 if(zasoby[i].type == t1976 && zasoby[i].regex.test(n))
@@ -2155,7 +2268,7 @@ var llm = 0;
 if(n[6] == "A" || n[6] == "M" || n[6] == "W") llm = get1976LetterWidth(n[6])-54;
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0] - llm;
 }
-if(t1976 == 102 || t1976 == 109 || t1976 == 112) //2-rzędowe
+else if(t1976 == 102 || t1976 == 109 || t1976 == 112) //2-rzędowe
 {
 var lm = 0;
 if(n[6] >= "A" && n[6] <= "Z") lm = 6;
@@ -2175,7 +2288,7 @@ var llm = 0;
 if(n[6] == "A" || n[6] == "M" || n[6] == "W") llm = get1976LetterWidth(n[6])-54;
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0] - llm;
 }
-if(t1976 == 103 || t1976 == 110 || t1976 == 113) //motocyklowe
+else if(t1976 == 103 || t1976 == 110 || t1976 == 113) //motocyklowe
 {
 var lm = 0;
 if(n[6] >= "A" && n[6] <= "Z") lm = 2;
@@ -2194,7 +2307,7 @@ var llm = 0;
 if(n[6] == "A" || n[6] == "M" || n[6] == "W") llm = get1976LetterWidthMot(n[6])-32;
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0] - llm;
 }
-if(t1976 == 104 || t1976 == 118) //motorowerowe
+else if(t1976 == 104 || t1976 == 118) //motorowerowe
 {
 //pierwszy znak
 new_cpos_x[0] = letterLoc[0];
@@ -2211,7 +2324,7 @@ var llm = 0;
 if(n[6] == "A" || n[6] == "M" || n[6] == "W") llm = get1976LetterWidthMop(n[6])-20;
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0] - llm;
 }
-if(t1976 == 105) //tymczasowe 1-rz
+else if(t1976 == 105) //tymczasowe 1-rz
 {
 //pierwszy znak
 var llm = (get1976LetterWidth(n[0])-54)/2 + get1976LetterOffset(n[0]);
@@ -2223,7 +2336,7 @@ new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
 new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
 }
-if(t1976 == 106) //tymczasowe 2-rz
+else if(t1976 == 106) //tymczasowe 2-rz
 {
 //pierwszy znak
 var llm = (get1976LetterWidth(n[0])-54)/2 + get1976LetterOffset(n[0]);
@@ -2235,7 +2348,7 @@ new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
 new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
 }
-if(t1976 == 107) //tymczasowe motocyklowe
+else if(t1976 == 107) //tymczasowe motocyklowe
 {
 //pierwszy znak
 var llm = (get1976LetterWidthMot(n[0])-32)/2 + get1976LetterOffsetMot(n[0]);
@@ -2247,7 +2360,7 @@ new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
 new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
 }
-if(t1976 == 117) //tymczasowe motorowerowe
+else if(t1976 == 117) //tymczasowe motorowerowe
 {
 //pierwszy znak
 var llm = (get1976LetterWidthMop(n[0])-20)/2 + get1976LetterOffsetMop(n[0]);
@@ -2259,7 +2372,7 @@ new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
 new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
 }
-if(t1976 == 114) //dyplomatyczna 1-rz.
+else if(t1976 == 114) //dyplomatyczna 1-rz.
 {
 //pierwszy znak
 new_cpos_x[0] = letterLoc[0];
@@ -2270,7 +2383,7 @@ new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
 new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
 }
-if(t1976 == 115) //dyplomatyczna 2-rz.
+else if(t1976 == 115) //dyplomatyczna 2-rz.
 {
 //pierwszy znak
 new_cpos_x[0] = letterLoc[0];
@@ -2281,7 +2394,7 @@ new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
 new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
 }
-if(t1976 == 116) //dyplomatyczna motocyklowa
+else if(t1976 == 116) //dyplomatyczna motocyklowa
 {
 //pierwszy znak
 new_cpos_x[0] = letterLoc[0];
@@ -2295,24 +2408,29 @@ new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
 
 for(var j = 0; j < zasoby[i].cpos_wide.length; j++)
 {
-if(t1976 == 101) elem_name = "bs"+n[j];
-if(t1976 == 102) elem_name = "bs"+n[j];
-if(t1976 == 103) elem_name = "bm"+n[j];
-if(t1976 == 104) elem_name = "br"+n[j];
-if(t1976 == 105) elem_name = "ys"+n[j];
-if(t1976 == 106) elem_name = "ys"+n[j];
-if(t1976 == 107) elem_name = "ym"+n[j];
-if(t1976 == 108) elem_name = "bs"+n[j];
-if(t1976 == 109) elem_name = "bs"+n[j];
-if(t1976 == 110) elem_name = "bm"+n[j];
-if(t1976 == 111) elem_name = "bs"+n[j];
-if(t1976 == 112) elem_name = "bs"+n[j];
-if(t1976 == 113) elem_name = "bm"+n[j];
-if(t1976 == 114) elem_name = "bs"+n[j];
-if(t1976 == 115) elem_name = "bs"+n[j];
-if(t1976 == 116) elem_name = "bm"+n[j];
-if(t1976 == 117) elem_name = "yr"+n[j];
-if(t1976 == 118) elem_name = "br"+n[j];
+	
+switch(t1976)
+{
+	case 101: elem_name = "bs"+n[j]; break;
+	case 102: elem_name = "bs"+n[j]; break;
+	case 103: elem_name = "bm"+n[j]; break;
+	case 104: elem_name = "br"+n[j]; break;
+	case 105: elem_name = "ys"+n[j]; break;
+	case 106: elem_name = "ys"+n[j]; break;
+	case 107: elem_name = "ym"+n[j]; break;
+	case 108: elem_name = "bs"+n[j]; break;
+	case 109: elem_name = "bs"+n[j]; break;
+	case 110: elem_name = "bm"+n[j]; break;
+	case 111: elem_name = "bs"+n[j]; break;
+	case 112: elem_name = "bs"+n[j]; break;
+	case 113: elem_name = "bm"+n[j]; break;
+	case 114: elem_name = "bs"+n[j]; break;
+	case 115: elem_name = "bs"+n[j]; break;
+	case 116: elem_name = "bm"+n[j]; break;
+	case 117: elem_name = "yr"+n[j]; break;
+	case 118: elem_name = "br"+n[j]; break;
+}
+
 if(n[j] == "A" || n[j] == "M" || n[j] == "W") elem_name += "____";
 
 ctx.drawImage(document.getElementById(elem_name), 2*scaling*(new_cpos_x[j])-(5*scaling), 2*scaling*(zasoby[i].cpos_wide[j][1])-(5*scaling), scaling*document.getElementById(elem_name).width, scaling*document.getElementById(elem_name).height);

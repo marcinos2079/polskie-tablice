@@ -8,7 +8,7 @@ a:hover {display:inline-block;text-decoration:none;color:#ffffff;cursor:pointer}
 div#footer {margin-top:25px;padding:5px;background-color:#444444}
 span.t-label {display:inline-block;width:240px;text-align:left}
 input[type=text] {width:120px;background-color:#222222;color:#dddddd;height:20px;font-family:Tahoma;font-size:12pt;border:1px solid #888888;margin:3px 0px}
-input[type=number] {text-align:right;width:50px;background-color:#222222;color:#dddddd;height:20px;font-family:Tahoma;font-size:12pt;border:1px solid #888888;margin:3px 0px}
+input[type=number] {text-align:right;width:60px;text-align:center;background-color:#222222;color:#dddddd;height:20px;font-family:Tahoma;font-size:12pt;border:1px solid #888888;margin:3px 0px}
 div.left {width:45%;box-sizing:border-box;float:left;text-align:left;padding:5px 10px}
 div.right {width:55%;box-sizing:border-box;float:left;text-align:left;padding:5px 10px}
 .row:after {

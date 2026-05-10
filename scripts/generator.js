@@ -4,10 +4,23 @@ function setVisibility(a)
 	
 	var selectedPlateType = document.getElementById("typ").value;
 	
-	if(a == 0)
+	if(a == 2)
+	{
+		document.getElementById("typ").style.display = "none";
+		document.getElementById("typ_1976").style.display = "none";
+		document.getElementById("typ_1956").style.display = "inline-block";
+		document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ_1956").value);
+		document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1956").value + ".png";
+		
+		document.getElementById("symbol_zab").style.display = "none";
+		document.getElementById("naklejka_ziel").style.display = "none";
+		document.getElementById("data_tymcz").style.display = "none";
+	}
+	else if(a == 0)
 	{
 		document.getElementById("typ").style.display = "none";
 		document.getElementById("typ_1976").style.display = "inline-block";
+		document.getElementById("typ_1956").style.display = "none";
 		document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ_1976").value);
 		document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
 		
@@ -19,6 +32,7 @@ function setVisibility(a)
 	{
 		document.getElementById("typ").style.display = "inline-block";
 		document.getElementById("typ_1976").style.display = "none";
+		document.getElementById("typ_1956").style.display = "none";
 		document.getElementById("allowed-formats").innerHTML = getPermittedPatterns(document.getElementById("typ").value);
 		document.getElementById("example").src = "images/wzory/" + document.getElementById("typ").value + ".png";
 		
@@ -36,15 +50,20 @@ function setVisibility(a)
 
 window.addEventListener("load", (event) => {
 
-if(document.getElementById("wzor_1976").checked) setVisibility(0);
+if(document.getElementById("wzor_1956").checked) setVisibility(2);
+else if(document.getElementById("wzor_1976").checked) setVisibility(0);
 else setVisibility(1);
 
 });
 
 function zmienWid(s)
 {
-	
-	if(document.getElementById("wzor_1976").checked) 
+	if(document.getElementById("wzor_1956").checked) 
+	{
+		document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1956").value + ".png";
+		setVisibility(2);
+	}
+	else if(document.getElementById("wzor_1976").checked) 
 	{
 		document.getElementById("example").src = "images/wzory/" + document.getElementById("typ_1976").value + ".png";
 		setVisibility(0);
@@ -73,6 +92,11 @@ const DOUBLE_ROW_OLD_PLATES = [102, 106, 109, 112];
 const DOUBLE_ROW_DIPLOMATIC_OLD_PLATES = [115];
 const MOPED_OLD_PLATES = [104, 117, 118];
 const MOTORCYCLE_DIPLOMATIC_OLD_PLATES = [116];
+const SINGLE_ROW_56_PLATES = [201, 206, 209];
+const DOUBLE_ROW_56_PLATES = [202, 210];
+const MOTORCYCLE_56_PLATES = [203, 207];
+const MOTORCYCLE_56_FRONT_PLATES = [204, 208];
+const MOPED_56_PLATES = [205];
 
 function setCanvas(a, sc)
 {
@@ -89,6 +113,11 @@ else if(DOUBLE_ROW_OLD_PLATES.indexOf(a) >= 0){c_width=580;c_height=460;} //2-rz
 else if(DOUBLE_ROW_DIPLOMATIC_OLD_PLATES.indexOf(a) >= 0){c_width=660;c_height=460;} //2-rzędowa dyplomatyczna 1976
 else if(MOPED_OLD_PLATES.indexOf(a) >= 0){c_width=280;c_height=230;} //motorowerowa 1976
 else if(MOTORCYCLE_DIPLOMATIC_OLD_PLATES.indexOf(a) >= 0){c_width=440;c_height=300;} //motocyklowa dyplomatyczna 1976
+else if(SINGLE_ROW_56_PLATES.indexOf(a) >= 0){c_width=750;c_height=240;} //1-rzędowa 1956
+else if(DOUBLE_ROW_56_PLATES.indexOf(a) >= 0){c_width=580;c_height=440;} //2-rzędowa 1956
+else if(MOTORCYCLE_56_PLATES.indexOf(a) >= 0){c_width=340;c_height=300;} //motocyklowa 1956
+else if(MOTORCYCLE_56_FRONT_PLATES.indexOf(a) >= 0){c_width=552;c_height=172;} //motocyklowa przednia 1956
+else if(MOPED_56_PLATES.indexOf(a) >= 0){c_width=240;c_height=200;} //motorowerowa 1956
 
 document.getElementById("tablica").width = c_width*sc;
 document.getElementById("tablica").height = c_height*sc;
@@ -110,6 +139,16 @@ if(a == 105 || a == 106 || a == 107 || a == 117) return "A&nbsp;12&nbsp;3456";
 if(a == 108 || a == 109 || a == 110 || a == 118) return "<b>X</b>WA&nbsp;1234";
 if(a == 111 || a == 112 || a == 113) return "<b>I</b>WA&nbsp;1234";
 if(a == 114 || a == 115 || a == 116) return "WA&nbsp;12&nbsp;345";
+if(a == 201) return "AB-12-34, 12-34-AB, A-12-34";
+if(a == 202) return "AB-12-34, 12-34-AB";
+if(a == 203) return "AB 1234, 1234 AB";
+if(a == 204) return "AB 1234";
+if(a == 206) return "A<b>PR</b>-123, 123-A<b>PR</b>, A-123-<b>PR</b>";
+if(a == 207) return "A-<b>PR</b> 123, 123 A-<b>PR</b>";
+if(a == 208) return "A-<b>PR</b> 123";
+if(a == 209) return "A<b>Z</b>-12-34, 12-34-A<b>Z</b>";
+if(a == 210) return "A<b>Z</b>-12-34, 12-34-A<b>Z</b>";
+if(a == 205) return "AB-1234, ABC 123";
 
 }
 
@@ -1979,6 +2018,135 @@ type:116, //dyplomatyczne motocyklowe
 regex:/^[A-Z][A-Z][0-9][0-9][0-9][0-9][0-9]$/, 
 cpos_wide:[[15,20],[62,20],[139,20],[177,20],[35,85],[79,85],[123,85]], 
 },
+{
+type:201, //1-rzędowe 1956 1. zasób
+regex:/^[A-ZŁ][A-ZŁ][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[20,20],[75,20],[145,20],[200,20],[260,20],[315,20]], 
+wdpos:[122.5,20],
+ndpos:[245,20],
+},
+{
+type:201, //1-rzędowe 1956 2. zasób
+regex:/^[0-9][0-9][0-9][0-9][A-ZŁ][A-ZŁ]$/, 
+cpos_wide:[[20,20],[75,20],[135,20],[190,20],[260,20],[315,20]], 
+ndpos:[120,20],
+wdpos:[237.5,20],
+},
+{
+type:201, //1-rzędowe 1956 milicja/wojsko
+regex:/^[A-ZŁ][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[20,20],[130,20],[190,20],[255,20],[315,20]], 
+wdpos:[92.5,20],
+ndpos:[237.5,20],
+},
+{
+type:202, //2-rzędowe 1956 1. zasób
+regex:/^[A-ZŁ][A-ZŁ][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[85,20],[160,20],[25,120],[85,120],[160,120],[220,120]], 
+wdpos:[137.5, 120],
+},
+{
+type:202, //2-rzędowe 1956 2. zasób
+regex:/^[0-9][0-9][0-9][0-9][A-ZŁ][A-ZŁ]$/, 
+cpos_wide:[[25,20],[85,20],[160,20],[220,20],[85,120],[160,120]], 
+wdpos:[137.5, 20],
+},
+{
+type:203, //motocyklowe 1956 1. zasób
+regex:/^[A-ZŁ][A-ZŁ][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[50,20],[90,20],[10,85],[50,85],[90,85],[130,85]], 
+},
+{
+type:203, //motocyklowe 1956 2. zasób
+regex:/^[0-9][0-9][0-9][0-9][A-ZŁ][A-ZŁ]$/, 
+cpos_wide:[[10,20],[50,20],[90,20],[130,20],[50,85],[90,85]], 
+},
+{
+type:204, //motocyklowe 1956 przednie
+regex:/^[A-ZŁ][A-ZŁ][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[34,46.84],[72.90,39.60],[124.18,35.20],[163.74,35.71],[203.11,39.60],[242,46.84]], //środek znaku, nie lewy górny róg
+cpos_rot:[-12.99, -8.09, -1.71, 3.18, 8.09, 12.99],
+ndpos:[108.48,36.69],
+ndpos_rot: -4.90
+},
+{
+type:205, //motorowerowa 1959-1964
+regex:/^[A-ZŁ][A-ZŁ][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[15,10],[45,10],[85,10],[20,60],[50,60],[80,60]], 
+wdpos:[70,10],
+},
+{
+type:205, //motorowerowa 1964-1976
+regex:/^[A-ZŁ][A-ZŁ][A-ZŁ][0-9][0-9][0-9]$/, 
+cpos_wide:[[15,10],[50,10],[85,10],[15,60],[50,60],[85,60]], 
+},
+{
+type:206, //1-rzędowe 1964 próbne 1. zasób
+regex:/^[A-ZŁ]PR[0-9][0-9][0-9]$/, 
+cpos_wide:[[25,20],[80,30],[125,30],[195,20],[250,20],[305,20]], 
+wdpos:[167.5,20],
+},
+{
+type:206, //1-rzędowe 1964 próbne 2. zasób
+regex:/^[0-9][0-9][0-9][A-ZŁ]PR$/, 
+cpos_wide:[[25,20],[80,20],[135,20],[215,20],[270,30],[315,30]], 
+wdpos:[187.5,20],
+},
+{
+type:206, //1-rzędowe 1956-1964 próbne
+regex:/^[A-ZŁ][0-9][0-9][0-9]PR$/, 
+cpos_wide:[[20,20],[100,20],[155,20],[210,20],[280,30],[325,30]], 
+wdpos:[72.5,20],
+ndpos:[260,20]
+},
+{
+type:207, //motocyklowe 1956 próbne 1. zasób
+regex:/^[A-ZŁ]PR[0-9][0-9][0-9]$/, 
+cpos_wide:[[20,20],[75,20],[120,20],[20,85],[70,85],[120,85]], 
+ndpos:[57.5,20],
+},
+{
+type:207, //motocyklowe 1956 próbne 2. zasób
+regex:/^[0-9][0-9][0-9][A-ZŁ]PR$/, 
+cpos_wide:[[20,20],[70,20],[120,20],[20,85],[75,85],[120,85]],
+ndpos:[57.5,85],
+},
+{
+type:208, //motocyklowe 1956 próbna przednia
+regex:/^[A-ZŁ]PR[0-9][0-9][0-9]$/, 
+cpos_wide:[[34.00,46.84],[79.51,38.71],[118.46,35.41],[164.69,35.77],[203.58,39.67],[242.00,46.84]], //środek znaku, nie lewy górny róg
+cpos_rot:[-12.99, -7.26, -2.42, 3.30, 8.15, 12.99],
+ndpos:[66.41,40.20],
+ndpos_rot: -10.13,
+ndpos2:[151.58,35.01],
+ndpos2_rot: 0.44
+},
+{
+type:209, //1-rzędowe 1956 dyplomatyczne 1. zasób
+regex:/^[A-ZŁ][A-ZŁ][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[20,20],[75,20],[145,20],[200,20],[260,20],[315,20]], 
+wdpos:[122.5,20],
+ndpos:[245,20],
+},
+{
+type:209, //1-rzędowe 1956 dyplomatyczne 2. zasób
+regex:/^[0-9][0-9][0-9][0-9][A-ZŁ][A-ZŁ]$/, 
+cpos_wide:[[20,20],[75,20],[135,20],[190,20],[260,20],[315,20]], 
+ndpos:[120,20],
+wdpos:[237.5,20],
+},
+{
+type:210, //2-rzędowe 1956 dyplomatyczne 1. zasób
+regex:/^[A-ZŁ][A-ZŁ][0-9][0-9][0-9][0-9]$/, 
+cpos_wide:[[85,20],[160,20],[25,120],[85,120],[160,120],[220,120]], 
+wdpos:[137.5, 120],
+},
+{
+type:210, //2-rzędowe 1956 dyplomatyczne 2. zasób
+regex:/^[0-9][0-9][0-9][0-9][A-ZŁ][A-ZŁ]$/, 
+cpos_wide:[[25,20],[85,20],[160,20],[220,20],[85,120],[160,120]], 
+wdpos:[137.5, 20],
+},
 ];
 
 function setNotIssuedText(n_text_pl, n_text_en)
@@ -1992,7 +2160,8 @@ function generate()
 {
 var t = parseInt(document.getElementById("typ").value);
 var t1976 = parseInt(document.getElementById("typ_1976").value);
-var n = (document.getElementById("numer").value).replace(/\s/g, "").toUpperCase();
+var t1956 = parseInt(document.getElementById("typ_1956").value);
+var n = (document.getElementById("numer").value).replace(/[\s\-]/g, "").toUpperCase();
 var canvas = document.getElementById("tablica");
 var ctx = canvas.getContext("2d");
 var elem_name = "";
@@ -2037,7 +2206,7 @@ else
 	document.getElementById("not-yet-issued").style.display="none";
 }
 
-if(document.getElementById("wzor_1976").checked == false)
+if(document.getElementById("wzor_2000").checked || document.getElementById("wzor_2002").checked || document.getElementById("wzor_2006").checked || document.getElementById("wzor_2018").checked || document.getElementById("wzor_2020").checked)
 {
 
 setCanvas(t, scaling);
@@ -2235,7 +2404,7 @@ else if(MOPED_PLATES.indexOf(t) >= 0)
 }
 }
 }
-else
+else if(document.getElementById("wzor_1976").checked)
 {
 	
 setCanvas(t1976, scaling);	
@@ -2324,19 +2493,7 @@ var llm = 0;
 if(n[6] == "A" || n[6] == "M" || n[6] == "W") llm = get1976LetterWidthMop(n[6])-20;
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0] - llm;
 }
-else if(t1976 == 105) //tymczasowe 1-rz
-{
-//pierwszy znak
-var llm = (get1976LetterWidth(n[0])-54)/2 + get1976LetterOffset(n[0]);
-new_cpos_x[0] = zasoby[i].cpos_wide[0][0] - llm;
-new_cpos_x[1] = zasoby[i].cpos_wide[1][0];
-new_cpos_x[2] = zasoby[i].cpos_wide[2][0];
-new_cpos_x[3] = zasoby[i].cpos_wide[3][0];
-new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
-new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
-new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
-}
-else if(t1976 == 106) //tymczasowe 2-rz
+else if(t1976 == 105 || t1976 == 106) //tymczasowe 1-rz i 2-rz
 {
 //pierwszy znak
 var llm = (get1976LetterWidth(n[0])-54)/2 + get1976LetterOffset(n[0]);
@@ -2372,29 +2529,7 @@ new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
 new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
 new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
 }
-else if(t1976 == 114) //dyplomatyczna 1-rz.
-{
-//pierwszy znak
-new_cpos_x[0] = letterLoc[0];
-new_cpos_x[1] = letterLoc[1];
-new_cpos_x[2] = zasoby[i].cpos_wide[2][0];
-new_cpos_x[3] = zasoby[i].cpos_wide[3][0];
-new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
-new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
-new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
-}
-else if(t1976 == 115) //dyplomatyczna 2-rz.
-{
-//pierwszy znak
-new_cpos_x[0] = letterLoc[0];
-new_cpos_x[1] = letterLoc[1];
-new_cpos_x[2] = zasoby[i].cpos_wide[2][0];
-new_cpos_x[3] = zasoby[i].cpos_wide[3][0];
-new_cpos_x[4] = zasoby[i].cpos_wide[4][0];
-new_cpos_x[5] = zasoby[i].cpos_wide[5][0];
-new_cpos_x[6] = zasoby[i].cpos_wide[6][0];
-}
-else if(t1976 == 116) //dyplomatyczna motocyklowa
+else if(t1976 >= 114 && t1976 <= 116) //dyplomatyczne
 {
 //pierwszy znak
 new_cpos_x[0] = letterLoc[0];
@@ -2437,6 +2572,117 @@ ctx.drawImage(document.getElementById(elem_name), 2*scaling*(new_cpos_x[j])-(5*s
 }
 }
 }
+}
+
+else
+{	
+
+setCanvas(t1956, scaling);	
+
+for(var i = 0; i < zasoby.length; i++)
+{
+if(zasoby[i].type == t1956 && zasoby[i].regex.test(n))
+{
+format_correct = true;
+
+ctx.drawImage(document.getElementById("tab"+t1956), 0, 0, scaling*document.getElementById("tab"+t1956).width, scaling*document.getElementById("tab"+t1956).height);
+
+for(var j = 0; j < zasoby[i].cpos_wide.length; j++)
+{
+	
+switch(t1956)
+{
+	case 201:
+	{
+		if(j == 0 && ((n[0] >= "A" && n[0] <= "Z") && n[1] >= "0" && n[1] <= 9)) //szeroka litera dla tablic milicji i wojska
+		{
+			elem_name = "xs"+n[j]+"_"; break;
+		}
+		else 
+		{
+			elem_name = "xs"+n[j]; break;
+		}
+	}
+	case 202: elem_name = "xs"+n[j]+"_"; break;
+	case 203: elem_name = "xm"+n[j]; break;
+	case 204: elem_name = "xm"+n[j]; break;
+	case 205: elem_name = "xr"+n[j]; break;
+	case 206: 
+	{
+		if((j == 1 && n[j] == "P") || (j == 2 && n[j] == "R") || (j == 4 && n[j] == "P") || (j == 5 && n[j] == "R")) elem_name = "ws"+n[j]+"_"; //mniejsze litery PR
+		else elem_name = "ws"+n[j]; 
+		break;
+	}
+	case 207: elem_name = "wm"+n[j]; break;
+	case 208: elem_name = "wm"+n[j]; break;
+	case 209: elem_name = "vs"+n[j];break;
+	case 210: elem_name = "vs"+n[j]+"_"; break;
+}
+
+if(MOTORCYCLE_56_FRONT_PLATES.indexOf(t1956) >= 0) //dla zaokrąglonych tablic
+{
+
+var mfp_r = zasoby[i].cpos_rot[j];	
+var mfp_x = zasoby[i].cpos_wide[j][0]*scaling*2;
+var mfp_y = zasoby[i].cpos_wide[j][1]*scaling*2;
+
+ctx.save();
+ctx.translate(mfp_x, mfp_y);
+ctx.rotate(mfp_r * Math.PI / 180);
+ctx.drawImage(document.getElementById(elem_name), -35*scaling, -50*scaling, scaling*document.getElementById(elem_name).width, scaling*document.getElementById(elem_name).height);
+ctx.restore();
+}
+else
+{
+ctx.drawImage(document.getElementById(elem_name), 2*scaling*(zasoby[i].cpos_wide[j][0])-(5*scaling), 2*scaling*(zasoby[i].cpos_wide[j][1])-(5*scaling), scaling*document.getElementById(elem_name).width, scaling*document.getElementById(elem_name).height);
+}
+
+}
+	
+var first_l = "x";
+if(t1956 >= 206 && t1956 <= 208) first_l = "w"; //dla tablic próbnych
+if(t1956 >= 209 && t1956 <= 210) first_l = "v"; //dla tablic dyplomatycznych
+
+var second_l = "s";
+if(MOTORCYCLE_56_PLATES.indexOf(t1956) >= 0 || MOTORCYCLE_56_FRONT_PLATES.indexOf(t1956) >= 0) second_l = "m";
+if(MOPED_56_PLATES.indexOf(t1956) >= 0) second_l = "r";
+
+if(MOTORCYCLE_56_FRONT_PLATES.indexOf(t1956) >= 0) //dla zaokrąglonych tablic
+{
+	
+var mfp_r = zasoby[i].ndpos_rot;
+var mfp_x = zasoby[i].ndpos[0];
+var mfp_y = zasoby[i].ndpos[1];
+
+ctx.save();
+ctx.translate(mfp_x*scaling*2, mfp_y*scaling*2);
+ctx.rotate(mfp_r * Math.PI / 180);
+ctx.drawImage(document.getElementById(first_l + second_l + "_"), -35*scaling, -50*scaling, scaling*document.getElementById(first_l + second_l + "_").width, scaling*document.getElementById(first_l + second_l + "_").height);
+ctx.restore();
+
+if(zasoby[i].ndpos2) //próbne tablice motocyklowe
+{
+var mfp_r2 = zasoby[i].ndpos2_rot;
+var mfp_x2 = zasoby[i].ndpos2[0];
+var mfp_y2 = zasoby[i].ndpos2[1];
+
+ctx.save();
+ctx.translate(mfp_x2*scaling*2, mfp_y2*scaling*2);
+ctx.rotate(mfp_r2 * Math.PI / 180);
+ctx.drawImage(document.getElementById(first_l + second_l + "_"), -35*scaling, -50*scaling, scaling*document.getElementById(first_l + second_l + "_").width, scaling*document.getElementById(first_l + second_l + "_").height);
+ctx.restore();
+
+}
+}
+else
+{
+if(zasoby[i].wdpos) ctx.drawImage(document.getElementById(first_l + second_l + "-"), 2*scaling*(zasoby[i].wdpos[0])-(5*scaling), 2*scaling*(zasoby[i].wdpos[1])-(5*scaling), scaling*document.getElementById(first_l + second_l + "-").width, scaling*document.getElementById(first_l + second_l + "-").height);
+if(zasoby[i].ndpos) ctx.drawImage(document.getElementById(first_l + second_l + "_"), 2*scaling*(zasoby[i].ndpos[0])-(5*scaling), 2*scaling*(zasoby[i].ndpos[1])-(5*scaling), scaling*document.getElementById(first_l + second_l + "_").width, scaling*document.getElementById(first_l + second_l + "_").height);
+}
+
+}
+}	
+	
 }
 
 if(!format_correct) document.getElementById("format-incorrect").style.display="inline-block";

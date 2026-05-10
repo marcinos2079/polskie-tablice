@@ -19,6 +19,7 @@
 <div class="row">
 <div class="left">
 Plate style:<br>
+<input type="radio" name="wzor" id="wzor_1956" onclick="setVisibility(2)">1956-1976 (Very old plates, not longer valid)<br>
 <input type="radio" name="wzor" id="wzor_1976" onclick="setVisibility(0)">1976-2000 (Old system plates, black background)<br>
 <input type="radio" name="wzor" id="wzor_2000" onclick="setVisibility(1)">2000-2002 (Polish flag, old 'M' &amp; 'W' letters)<br>
 <input type="radio" name="wzor" id="wzor_2002" onclick="setVisibility(1)">2002-2006 (Polish flag)<br>
@@ -88,6 +89,18 @@ Plate type:<br>
 <option value="114">Diplomatic - standard size</option>
 <option value="115">Diplomatic - square two-line</option>
 <option value="116">Diplomatic - motorcycles</option>
+</select>
+<select id="typ_1956" onclick="zmienWid(this)" onchange="zmienWid(this)" style="display:none">
+<option value="201">Regular - standard size</option>
+<option value="202">Regular - square two-line</option>
+<option value="203">Regular - motorcycle rear</option>
+<option value="204">Regular - motorcycle front</option>
+<option value="205">Regular - mopeds</option>
+<option value="206">Testing - standard size</option>
+<option value="207">Testing - motorcycle rear</option>
+<option value="208">Testing - motorcycle front</option>
+<option value="209">Diplomatic - standard size</option>
+<option value="210">Diplomatic - square two-line</option>
 </select><span id="naklejka_ziel" style="display:none"><input type="radio" id="w_nakl_e" name="typ_naklejki" checked>Electric<input type="radio" id="w_nakl_h" name="typ_naklejki">Hydrogen</span><span id="symbol_zab" style="display:none">Symbol:<input type="radio" id="w_zab_n" name="typ_zabytk" checked>New<input type="radio" id="w_zab_s" name="typ_zabytk">Old</span><span id="data_tymcz" style="display:none">Year:<input type="number" min="2000" max="2099" value="2026" step="1" id="rok_tymcz"></span><br>
 Registration number:<br>
 <input type="text" id="numer"><br>
@@ -97,7 +110,7 @@ Image scaling: <input id="scaling" type="number" min="1" max="100" step="1" valu
 <span id="not-yet-issued" style="display:none">This plate type wasn't issued yet.</span>
 </div>
 </div>
-<div id="footer">&copy; 2022-2026 Marcin Przybyła | version from 3 May 2026 | <a id="switchstyle" onclick="switchPageStyle()" tabindex="0">Switch theme</a> | <a href="index.html">Polski</a></div>
+<div id="footer">&copy; 2022-2026 Marcin Przybyła | version from 10 May 2026 | <a id="switchstyle" onclick="switchPageStyle()" tabindex="0">Switch theme</a> | <a href="index.html">Polski</a></div>
 </div>
 </div>
 </div>
@@ -175,6 +188,16 @@ Image scaling: <input id="scaling" type="number" min="1" max="100" step="1" valu
 <img src="images/czarna_1rz_dyplomatyczna.png" id="tab114">
 <img src="images/czarna_2rz_dyplomatyczna.png" id="tab115">
 <img src="images/czarna_motocyklowa_dyplomatyczna.png" id="tab116">
+<img src="images/czarna56_1rz.png" id="tab201">
+<img src="images/czarna56_2rz.png" id="tab202">
+<img src="images/czarna56_motocyklowa.png" id="tab203">
+<img src="images/czarna56_motocyklowa_przednia.png" id="tab204">
+<img src="images/czarna56_motorowerowa.png" id="tab205">
+<img src="images/czarna56_1rz_probna.png" id="tab206">
+<img src="images/czarna56_motocyklowa_probna.png" id="tab207">
+<img src="images/czarna56_motocyklowa_przednia_probna.png" id="tab208">
+<img src="images/czarna56_1rz.png" id="tab209">
+<img src="images/czarna56_2rz.png" id="tab210">
 <img src="images/naklejka.png" id="nakl">
 <img src="images/naklejka_e.png" id="nakle">
 <img src="images/naklejka_h.png" id="naklh">
@@ -912,6 +935,306 @@ Image scaling: <input id="scaling" type="number" min="1" max="100" step="1" valu
 <img src="images/z_tymczasowe/7.png" id="tym7">
 <img src="images/z_tymczasowe/8.png" id="tym8">
 <img src="images/z_tymczasowe/9.png" id="tym9">
+<img src="images/z56_samochodowe/_.png" id="xs_">
+<img src="images/z56_samochodowe/-.png" id="xs-">
+<img src="images/z56_samochodowe/A.png" id="xsA">
+<img src="images/z56_samochodowe/B.png" id="xsB">
+<img src="images/z56_samochodowe/C.png" id="xsC">
+<img src="images/z56_samochodowe/D.png" id="xsD">
+<img src="images/z56_samochodowe/E.png" id="xsE">
+<img src="images/z56_samochodowe/F.png" id="xsF">
+<img src="images/z56_samochodowe/G.png" id="xsG">
+<img src="images/z56_samochodowe/H.png" id="xsH">
+<img src="images/z56_samochodowe/I.png" id="xsI">
+<img src="images/z56_samochodowe/J.png" id="xsJ">
+<img src="images/z56_samochodowe/K.png" id="xsK">
+<img src="images/z56_samochodowe/L.png" id="xsL">
+<img src="images/z56_samochodowe/Q.png" id="xsŁ">
+<img src="images/z56_samochodowe/M.png" id="xsM">
+<img src="images/z56_samochodowe/N.png" id="xsN">
+<img src="images/z56_samochodowe/O.png" id="xsO">
+<img src="images/z56_samochodowe/P.png" id="xsP">
+<img src="images/z56_samochodowe/R.png" id="xsR">
+<img src="images/z56_samochodowe/S.png" id="xsS">
+<img src="images/z56_samochodowe/T.png" id="xsT">
+<img src="images/z56_samochodowe/U.png" id="xsU">
+<img src="images/z56_samochodowe/V.png" id="xsV">
+<img src="images/z56_samochodowe/W.png" id="xsW">
+<img src="images/z56_samochodowe/X.png" id="xsX">
+<img src="images/z56_samochodowe/Y.png" id="xsY">
+<img src="images/z56_samochodowe/Z.png" id="xsZ">
+<img src="images/z56_samochodowe/0.png" id="xs0">
+<img src="images/z56_samochodowe/1.png" id="xs1">
+<img src="images/z56_samochodowe/2.png" id="xs2">
+<img src="images/z56_samochodowe/3.png" id="xs3">
+<img src="images/z56_samochodowe/4.png" id="xs4">
+<img src="images/z56_samochodowe/5.png" id="xs5">
+<img src="images/z56_samochodowe/6.png" id="xs6">
+<img src="images/z56_samochodowe/7.png" id="xs7">
+<img src="images/z56_samochodowe/8.png" id="xs8">
+<img src="images/z56_samochodowe/9.png" id="xs9">
+<img src="images/z56_samochodowe/A_.png" id="xsA_">
+<img src="images/z56_samochodowe/B_.png" id="xsB_">
+<img src="images/z56_samochodowe/C_.png" id="xsC_">
+<img src="images/z56_samochodowe/D_.png" id="xsD_">
+<img src="images/z56_samochodowe/E_.png" id="xsE_">
+<img src="images/z56_samochodowe/F_.png" id="xsF_">
+<img src="images/z56_samochodowe/G_.png" id="xsG_">
+<img src="images/z56_samochodowe/H_.png" id="xsH_">
+<img src="images/z56_samochodowe/I_.png" id="xsI_">
+<img src="images/z56_samochodowe/J_.png" id="xsJ_">
+<img src="images/z56_samochodowe/K_.png" id="xsK_">
+<img src="images/z56_samochodowe/L_.png" id="xsL_">
+<img src="images/z56_samochodowe/Q_.png" id="xsŁ_">
+<img src="images/z56_samochodowe/M_.png" id="xsM_">
+<img src="images/z56_samochodowe/N_.png" id="xsN_">
+<img src="images/z56_samochodowe/O_.png" id="xsO_">
+<img src="images/z56_samochodowe/P_.png" id="xsP_">
+<img src="images/z56_samochodowe/R_.png" id="xsR_">
+<img src="images/z56_samochodowe/S_.png" id="xsS_">
+<img src="images/z56_samochodowe/T_.png" id="xsT_">
+<img src="images/z56_samochodowe/U_.png" id="xsU_">
+<img src="images/z56_samochodowe/V_.png" id="xsV_">
+<img src="images/z56_samochodowe/W_.png" id="xsW_">
+<img src="images/z56_samochodowe/X_.png" id="xsX_">
+<img src="images/z56_samochodowe/Y_.png" id="xsY_">
+<img src="images/z56_samochodowe/Z_.png" id="xsZ_">
+<img src="images/z56_samochodowe/0_.png" id="xs0_">
+<img src="images/z56_samochodowe/1_.png" id="xs1_">
+<img src="images/z56_samochodowe/2_.png" id="xs2_">
+<img src="images/z56_samochodowe/3_.png" id="xs3_">
+<img src="images/z56_samochodowe/4_.png" id="xs4_">
+<img src="images/z56_samochodowe/5_.png" id="xs5_">
+<img src="images/z56_samochodowe/6_.png" id="xs6_">
+<img src="images/z56_samochodowe/7_.png" id="xs7_">
+<img src="images/z56_samochodowe/8_.png" id="xs8_">
+<img src="images/z56_samochodowe/9_.png" id="xs9_">
+<img src="images/z56_samochodowe_c/_.png" id="ws_">
+<img src="images/z56_samochodowe_c/-.png" id="ws-">
+<img src="images/z56_samochodowe_c/A.png" id="wsA">
+<img src="images/z56_samochodowe_c/B.png" id="wsB">
+<img src="images/z56_samochodowe_c/C.png" id="wsC">
+<img src="images/z56_samochodowe_c/D.png" id="wsD">
+<img src="images/z56_samochodowe_c/E.png" id="wsE">
+<img src="images/z56_samochodowe_c/F.png" id="wsF">
+<img src="images/z56_samochodowe_c/G.png" id="wsG">
+<img src="images/z56_samochodowe_c/H.png" id="wsH">
+<img src="images/z56_samochodowe_c/I.png" id="wsI">
+<img src="images/z56_samochodowe_c/J.png" id="wsJ">
+<img src="images/z56_samochodowe_c/K.png" id="wsK">
+<img src="images/z56_samochodowe_c/L.png" id="wsL">
+<img src="images/z56_samochodowe_c/Q.png" id="wsŁ">
+<img src="images/z56_samochodowe_c/M.png" id="wsM">
+<img src="images/z56_samochodowe_c/N.png" id="wsN">
+<img src="images/z56_samochodowe_c/O.png" id="wsO">
+<img src="images/z56_samochodowe_c/P.png" id="wsP">
+<img src="images/z56_samochodowe_c/R.png" id="wsR">
+<img src="images/z56_samochodowe_c/S.png" id="wsS">
+<img src="images/z56_samochodowe_c/T.png" id="wsT">
+<img src="images/z56_samochodowe_c/U.png" id="wsU">
+<img src="images/z56_samochodowe_c/V.png" id="wsV">
+<img src="images/z56_samochodowe_c/W.png" id="wsW">
+<img src="images/z56_samochodowe_c/X.png" id="wsX">
+<img src="images/z56_samochodowe_c/Y.png" id="wsY">
+<img src="images/z56_samochodowe_c/Z.png" id="wsZ">
+<img src="images/z56_samochodowe_c/0.png" id="ws0">
+<img src="images/z56_samochodowe_c/1.png" id="ws1">
+<img src="images/z56_samochodowe_c/2.png" id="ws2">
+<img src="images/z56_samochodowe_c/3.png" id="ws3">
+<img src="images/z56_samochodowe_c/4.png" id="ws4">
+<img src="images/z56_samochodowe_c/5.png" id="ws5">
+<img src="images/z56_samochodowe_c/6.png" id="ws6">
+<img src="images/z56_samochodowe_c/7.png" id="ws7">
+<img src="images/z56_samochodowe_c/8.png" id="ws8">
+<img src="images/z56_samochodowe_c/9.png" id="ws9">
+<img src="images/z56_samochodowe_c/P_.png" id="wsP_">
+<img src="images/z56_samochodowe_c/R_.png" id="wsR_">
+<img src="images/z56_motocyklowe/_.png" id="xm_">
+<img src="images/z56_motocyklowe/A.png" id="xmA">
+<img src="images/z56_motocyklowe/B.png" id="xmB">
+<img src="images/z56_motocyklowe/C.png" id="xmC">
+<img src="images/z56_motocyklowe/D.png" id="xmD">
+<img src="images/z56_motocyklowe/E.png" id="xmE">
+<img src="images/z56_motocyklowe/F.png" id="xmF">
+<img src="images/z56_motocyklowe/G.png" id="xmG">
+<img src="images/z56_motocyklowe/H.png" id="xmH">
+<img src="images/z56_motocyklowe/I.png" id="xmI">
+<img src="images/z56_motocyklowe/J.png" id="xmJ">
+<img src="images/z56_motocyklowe/K.png" id="xmK">
+<img src="images/z56_motocyklowe/L.png" id="xmL">
+<img src="images/z56_motocyklowe/Q.png" id="xmŁ">
+<img src="images/z56_motocyklowe/M.png" id="xmM">
+<img src="images/z56_motocyklowe/N.png" id="xmN">
+<img src="images/z56_motocyklowe/O.png" id="xmO">
+<img src="images/z56_motocyklowe/P.png" id="xmP">
+<img src="images/z56_motocyklowe/R.png" id="xmR">
+<img src="images/z56_motocyklowe/S.png" id="xmS">
+<img src="images/z56_motocyklowe/T.png" id="xmT">
+<img src="images/z56_motocyklowe/U.png" id="xmU">
+<img src="images/z56_motocyklowe/V.png" id="xmV">
+<img src="images/z56_motocyklowe/W.png" id="xmW">
+<img src="images/z56_motocyklowe/X.png" id="xmX">
+<img src="images/z56_motocyklowe/Y.png" id="xmY">
+<img src="images/z56_motocyklowe/Z.png" id="xmZ">
+<img src="images/z56_motocyklowe/0.png" id="xm0">
+<img src="images/z56_motocyklowe/1.png" id="xm1">
+<img src="images/z56_motocyklowe/2.png" id="xm2">
+<img src="images/z56_motocyklowe/3.png" id="xm3">
+<img src="images/z56_motocyklowe/4.png" id="xm4">
+<img src="images/z56_motocyklowe/5.png" id="xm5">
+<img src="images/z56_motocyklowe/6.png" id="xm6">
+<img src="images/z56_motocyklowe/7.png" id="xm7">
+<img src="images/z56_motocyklowe/8.png" id="xm8">
+<img src="images/z56_motocyklowe/9.png" id="xm9">
+<img src="images/z56_motocyklowe_c/-.png" id="wm-">
+<img src="images/z56_motocyklowe_c/_.png" id="wm_">
+<img src="images/z56_motocyklowe_c/A.png" id="wmA">
+<img src="images/z56_motocyklowe_c/B.png" id="wmB">
+<img src="images/z56_motocyklowe_c/C.png" id="wmC">
+<img src="images/z56_motocyklowe_c/D.png" id="wmD">
+<img src="images/z56_motocyklowe_c/E.png" id="wmE">
+<img src="images/z56_motocyklowe_c/F.png" id="wmF">
+<img src="images/z56_motocyklowe_c/G.png" id="wmG">
+<img src="images/z56_motocyklowe_c/H.png" id="wmH">
+<img src="images/z56_motocyklowe_c/I.png" id="wmI">
+<img src="images/z56_motocyklowe_c/J.png" id="wmJ">
+<img src="images/z56_motocyklowe_c/K.png" id="wmK">
+<img src="images/z56_motocyklowe_c/L.png" id="wmL">
+<img src="images/z56_motocyklowe_c/Q.png" id="wmŁ">
+<img src="images/z56_motocyklowe_c/M.png" id="wmM">
+<img src="images/z56_motocyklowe_c/N.png" id="wmN">
+<img src="images/z56_motocyklowe_c/O.png" id="wmO">
+<img src="images/z56_motocyklowe_c/P.png" id="wmP">
+<img src="images/z56_motocyklowe_c/R.png" id="wmR">
+<img src="images/z56_motocyklowe_c/S.png" id="wmS">
+<img src="images/z56_motocyklowe_c/T.png" id="wmT">
+<img src="images/z56_motocyklowe_c/U.png" id="wmU">
+<img src="images/z56_motocyklowe_c/V.png" id="wmV">
+<img src="images/z56_motocyklowe_c/W.png" id="wmW">
+<img src="images/z56_motocyklowe_c/X.png" id="wmX">
+<img src="images/z56_motocyklowe_c/Y.png" id="wmY">
+<img src="images/z56_motocyklowe_c/Z.png" id="wmZ">
+<img src="images/z56_motocyklowe_c/0.png" id="wm0">
+<img src="images/z56_motocyklowe_c/1.png" id="wm1">
+<img src="images/z56_motocyklowe_c/2.png" id="wm2">
+<img src="images/z56_motocyklowe_c/3.png" id="wm3">
+<img src="images/z56_motocyklowe_c/4.png" id="wm4">
+<img src="images/z56_motocyklowe_c/5.png" id="wm5">
+<img src="images/z56_motocyklowe_c/6.png" id="wm6">
+<img src="images/z56_motocyklowe_c/7.png" id="wm7">
+<img src="images/z56_motocyklowe_c/8.png" id="wm8">
+<img src="images/z56_motocyklowe_c/9.png" id="wm9">
+<img src="images/z56_samochodowe_y/_.png" id="vs_">
+<img src="images/z56_samochodowe_y/-.png" id="vs-">
+<img src="images/z56_samochodowe_y/A.png" id="vsA">
+<img src="images/z56_samochodowe_y/B.png" id="vsB">
+<img src="images/z56_samochodowe_y/C.png" id="vsC">
+<img src="images/z56_samochodowe_y/D.png" id="vsD">
+<img src="images/z56_samochodowe_y/E.png" id="vsE">
+<img src="images/z56_samochodowe_y/F.png" id="vsF">
+<img src="images/z56_samochodowe_y/G.png" id="vsG">
+<img src="images/z56_samochodowe_y/H.png" id="vsH">
+<img src="images/z56_samochodowe_y/I.png" id="vsI">
+<img src="images/z56_samochodowe_y/J.png" id="vsJ">
+<img src="images/z56_samochodowe_y/K.png" id="vsK">
+<img src="images/z56_samochodowe_y/L.png" id="vsL">
+<img src="images/z56_samochodowe_y/Q.png" id="vsŁ">
+<img src="images/z56_samochodowe_y/M.png" id="vsM">
+<img src="images/z56_samochodowe_y/N.png" id="vsN">
+<img src="images/z56_samochodowe_y/O.png" id="vsO">
+<img src="images/z56_samochodowe_y/P.png" id="vsP">
+<img src="images/z56_samochodowe_y/R.png" id="vsR">
+<img src="images/z56_samochodowe_y/S.png" id="vsS">
+<img src="images/z56_samochodowe_y/T.png" id="vsT">
+<img src="images/z56_samochodowe_y/U.png" id="vsU">
+<img src="images/z56_samochodowe_y/V.png" id="vsV">
+<img src="images/z56_samochodowe_y/W.png" id="vsW">
+<img src="images/z56_samochodowe_y/X.png" id="vsX">
+<img src="images/z56_samochodowe_y/Y.png" id="vsY">
+<img src="images/z56_samochodowe_y/Z.png" id="vsZ">
+<img src="images/z56_samochodowe_y/0.png" id="vs0">
+<img src="images/z56_samochodowe_y/1.png" id="vs1">
+<img src="images/z56_samochodowe_y/2.png" id="vs2">
+<img src="images/z56_samochodowe_y/3.png" id="vs3">
+<img src="images/z56_samochodowe_y/4.png" id="vs4">
+<img src="images/z56_samochodowe_y/5.png" id="vs5">
+<img src="images/z56_samochodowe_y/6.png" id="vs6">
+<img src="images/z56_samochodowe_y/7.png" id="vs7">
+<img src="images/z56_samochodowe_y/8.png" id="vs8">
+<img src="images/z56_samochodowe_y/9.png" id="vs9">
+<img src="images/z56_samochodowe_y/A_.png" id="vsA_">
+<img src="images/z56_samochodowe_y/B_.png" id="vsB_">
+<img src="images/z56_samochodowe_y/C_.png" id="vsC_">
+<img src="images/z56_samochodowe_y/D_.png" id="vsD_">
+<img src="images/z56_samochodowe_y/E_.png" id="vsE_">
+<img src="images/z56_samochodowe_y/F_.png" id="vsF_">
+<img src="images/z56_samochodowe_y/G_.png" id="vsG_">
+<img src="images/z56_samochodowe_y/H_.png" id="vsH_">
+<img src="images/z56_samochodowe_y/I_.png" id="vsI_">
+<img src="images/z56_samochodowe_y/J_.png" id="vsJ_">
+<img src="images/z56_samochodowe_y/K_.png" id="vsK_">
+<img src="images/z56_samochodowe_y/L_.png" id="vsL_">
+<img src="images/z56_samochodowe_y/Q_.png" id="vsŁ_">
+<img src="images/z56_samochodowe_y/M_.png" id="vsM_">
+<img src="images/z56_samochodowe_y/N_.png" id="vsN_">
+<img src="images/z56_samochodowe_y/O_.png" id="vsO_">
+<img src="images/z56_samochodowe_y/P_.png" id="vsP_">
+<img src="images/z56_samochodowe_y/R_.png" id="vsR_">
+<img src="images/z56_samochodowe_y/S_.png" id="vsS_">
+<img src="images/z56_samochodowe_y/T_.png" id="vsT_">
+<img src="images/z56_samochodowe_y/U_.png" id="vsU_">
+<img src="images/z56_samochodowe_y/V_.png" id="vsV_">
+<img src="images/z56_samochodowe_y/W_.png" id="vsW_">
+<img src="images/z56_samochodowe_y/X_.png" id="vsX_">
+<img src="images/z56_samochodowe_y/Y_.png" id="vsY_">
+<img src="images/z56_samochodowe_y/Z_.png" id="vsZ_">
+<img src="images/z56_samochodowe_y/0_.png" id="vs0_">
+<img src="images/z56_samochodowe_y/1_.png" id="vs1_">
+<img src="images/z56_samochodowe_y/2_.png" id="vs2_">
+<img src="images/z56_samochodowe_y/3_.png" id="vs3_">
+<img src="images/z56_samochodowe_y/4_.png" id="vs4_">
+<img src="images/z56_samochodowe_y/5_.png" id="vs5_">
+<img src="images/z56_samochodowe_y/6_.png" id="vs6_">
+<img src="images/z56_samochodowe_y/7_.png" id="vs7_">
+<img src="images/z56_samochodowe_y/8_.png" id="vs8_">
+<img src="images/z56_samochodowe_y/9_.png" id="vs9_">
+<img src="images/z56_motorowerowe/-.png" id="xr-">
+<img src="images/z56_motorowerowe/A.png" id="xrA">
+<img src="images/z56_motorowerowe/B.png" id="xrB">
+<img src="images/z56_motorowerowe/C.png" id="xrC">
+<img src="images/z56_motorowerowe/D.png" id="xrD">
+<img src="images/z56_motorowerowe/E.png" id="xrE">
+<img src="images/z56_motorowerowe/F.png" id="xrF">
+<img src="images/z56_motorowerowe/G.png" id="xrG">
+<img src="images/z56_motorowerowe/H.png" id="xrH">
+<img src="images/z56_motorowerowe/I.png" id="xrI">
+<img src="images/z56_motorowerowe/J.png" id="xrJ">
+<img src="images/z56_motorowerowe/K.png" id="xrK">
+<img src="images/z56_motorowerowe/L.png" id="xrL">
+<img src="images/z56_motorowerowe/Q.png" id="xrŁ">
+<img src="images/z56_motorowerowe/M.png" id="xrM">
+<img src="images/z56_motorowerowe/N.png" id="xrN">
+<img src="images/z56_motorowerowe/O.png" id="xrO">
+<img src="images/z56_motorowerowe/P.png" id="xrP">
+<img src="images/z56_motorowerowe/R.png" id="xrR">
+<img src="images/z56_motorowerowe/S.png" id="xrS">
+<img src="images/z56_motorowerowe/T.png" id="xrT">
+<img src="images/z56_motorowerowe/U.png" id="xrU">
+<img src="images/z56_motorowerowe/V.png" id="xrV">
+<img src="images/z56_motorowerowe/W.png" id="xrW">
+<img src="images/z56_motorowerowe/X.png" id="xrX">
+<img src="images/z56_motorowerowe/Y.png" id="xrY">
+<img src="images/z56_motorowerowe/Z.png" id="xrZ">
+<img src="images/z56_motorowerowe/0.png" id="xr0">
+<img src="images/z56_motorowerowe/1.png" id="xr1">
+<img src="images/z56_motorowerowe/2.png" id="xr2">
+<img src="images/z56_motorowerowe/3.png" id="xr3">
+<img src="images/z56_motorowerowe/4.png" id="xr4">
+<img src="images/z56_motorowerowe/5.png" id="xr5">
+<img src="images/z56_motorowerowe/6.png" id="xr6">
+<img src="images/z56_motorowerowe/7.png" id="xr7">
+<img src="images/z56_motorowerowe/8.png" id="xr8">
+<img src="images/z56_motorowerowe/9.png" id="xr9">
 </div>
 <script src="scripts/generator.js"></script> 
 <script src="scripts/widths_1976.js"></script> 
